@@ -12,6 +12,25 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Development Practices
+
+Using tools like prettier, eslint, & husky will help keep clean looking code for every commit.
+However, we need some conventions for managing changes on GitHub.
+
+##### For Branches:
+
+- **feat-\*-{issue_id}** denotes a feature branch where \* is the feature's name
+- **bug-\*-{issue_id}** denotes a branch used to fix a bug/issue; where \* is the bug's title.
+- **misc-\*-{issue_id}** denotes a miscellanous branch where \* is a short description.
+
+Once each branch's purpose has been fulfilled, a pull request to the _main_ branch is created. This request is then reviewed and, eventually, marked as ready for merge. During merge, all commits will be squashed to represent the feature title. Finally, vercel will automatically run a new deployment.
+
+##### For **Issues**:
+
+- **feat-\*** identifies a feature, providing all necessary information for implementation.
+- **bug-\*** identifies a bug within the application, providing any screenshots or context detailing the issue.
+- Further conventions for Issues may developed as time goes on.
+
 ## Learn More
 
 - To learn more about _Writzsol_, checkout our [wiki hosted on Github](https://github.com/Afulton11/writzsol/wiki).
