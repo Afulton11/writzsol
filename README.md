@@ -17,9 +17,12 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 Using tools like prettier, eslint, & husky will help keep clean looking code for every commit.
 However, we need some conventions for managing changes on GitHub.
 
+Generally, titles in GitHub will be _all lowercase_ using _dashes_ `-` to represent spaces.
+
 ##### For Branches:
 
 - **feat-\*-{issue_id}** denotes a feature branch where \* is the feature's name
+- **poc-\*-{issue_id}** denotes a Proof of Concept (POC) branch where \* is the POC's name.
 - **bug-\*-{issue_id}** denotes a branch used to fix a bug/issue; where \* is the bug's title.
 - **misc-\*-{issue_id}** denotes a miscellanous branch where \* is a short description.
 
@@ -29,6 +32,7 @@ Once each branch's purpose has been fulfilled, a pull request to the _main_ bran
 
 - **feat-\*** identifies a feature, providing all necessary information for implementation.
 - **bug-\*** identifies a bug within the application, providing any screenshots or context detailing the issue.
+- **poc-\*** identifies a Proof of Concenpt (POC) that should be completed before implementing a feature.
 - Further conventions for Issues may developed as time goes on.
 
 ## Learn More
