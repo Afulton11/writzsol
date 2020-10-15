@@ -6,7 +6,9 @@ module.exports = {
       require('./scripts/generate-sitemap');
     }
 
-    config.devtool = 'eval-source-map';
+    if (!process.env.VERCEL_URL) {
+      config.devtool = 'eval-source-map';
+    }
     return config;
   }
 };
