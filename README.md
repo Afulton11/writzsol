@@ -23,7 +23,17 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
    This will create tables within your new postgres database necessary for NextAuth to run.
    The current `latest-migration` is `next-auth-models`.
 
-4. Create a `.env.local` file in the root project directory. This file will contain sensitive data required to interact with external APIs like Google Auth or Github Auth. See more about what is needed for this file here: https://next-auth.js.org/getting-started/example
+4. Create a `.env` file in the root project directory. This file will contain sensitive data required to interact with external APIs like Google Auth or Github Auth. See more about what is needed for this file here: https://next-auth.js.org/getting-started/example
+
+   OR
+
+   If you have access to our vercel deployments, simply run the vercel CLI command:
+
+   ```bash
+   vercel env pull
+   ```
+
+   and type in `http://localhost:3000` as the VERCEL_URL for development in the generated `.env` file.
 
 5. Run the development server:
 
