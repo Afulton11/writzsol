@@ -2,15 +2,38 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-After cloning the repo, run the development server:
+1. After cloning the repo, generate files from prisma & nexus:
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+   ```bash
+   npm run generate
+   # or
+   yarn generate
+   ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+   These files will include helpful things like schema types and a schema.graphql file.
+
+2. Connect prisma with a postgres database. For now, create a local postgresql instance and a `.env` file within the `prisma` folder. Inside the `.env` file add, `DATABASE_URL={Your-Database-Url-Here}`. This allows prisma to communicate with the database.
+
+3. Run Prisma migrate:
+
+   ```bash
+   npx prisma migrate up {latest-migration}
+   ```
+
+   This will create tables within your new postgres database necessary for NextAuth to run.
+   The current `latest-migration` is `next-auth-models`.
+
+4. Create a `.env.local` file in the root project directory. This file will contain sensitive data required to interact with external APIs like Google Auth or Github Auth. See more about what is needed for this file here: https://next-auth.js.org/getting-started/example
+
+5. Run the development server:
+
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+6. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Development Practices
 

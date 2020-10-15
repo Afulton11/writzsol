@@ -38,3 +38,6 @@ yarn-error.log*
 .env.*
 public/sitemap.xml
 .now
+
+# nexus
+graphql/generated
