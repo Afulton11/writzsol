@@ -39,7 +39,4 @@ yarn-error.log*
 public/sitemap.xml
 .now
 
-# nexus
-graphql/generated
-
 *bfg-report/
