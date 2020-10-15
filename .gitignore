@@ -35,9 +35,11 @@ yarn-error.log*
 
 
 *.log
-.env.*
+.env*
 public/sitemap.xml
 .now
 
 # nexus
 graphql/generated
+
+*bfg-report/
