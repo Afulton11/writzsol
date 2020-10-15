@@ -11,11 +11,12 @@ export const schema = makeSchema({
   outputs: {
     typegen: path.join(
       process.cwd(),
-      'graphql',
-      'generated',
+      'pages',
+      'api',
+      'gql',
       'nexus-typegen.ts'
     ),
-    schema: path.join(process.cwd(), 'graphql', 'generated', 'schema.graphql')
+    schema: path.join(process.cwd(), 'pages', 'api', 'gql', 'schema.graphql')
   }
 });
 export const config = {
