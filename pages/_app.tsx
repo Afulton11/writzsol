@@ -1,10 +1,10 @@
 import Head from 'next/head';
+import theme from '../styles/theme';
 
 import { AppProps } from 'next/dist/next-server/lib/router/router';
 import { ThemeProvider, CSSReset } from '@chakra-ui/core';
 import { Global, css } from '@emotion/core';
-
-import theme from '../styles/theme';
+import { Provider as AuthProvider } from 'next-auth/client';
 
 const GlobalStyle = ({ children }) => (
   <>
@@ -44,7 +44,9 @@ function WritzsolApp({ Component, pageProps }: AppProps) {
       </Head>
       <ThemeProvider theme={theme}>
         <GlobalStyle>
-          <Component {...pageProps} />
+          <AuthProvider session={pageProps.session}>
+            <Component {...pageProps} />
+          </AuthProvider>
         </GlobalStyle>
       </ThemeProvider>
     </>
