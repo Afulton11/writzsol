@@ -3,7 +3,7 @@
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 generator client {
@@ -14,11 +14,6 @@ enum Role {
   USER
   ADMIN
   DEVELOPER
-}
-
-enum WebsiteStatus {
-  PRIVATE
-  PUBLISHED
 }
 
 model Account {
@@ -83,9 +78,7 @@ model Website {
   id            Int     @default(autoincrement()) @id
   userId        Int     @map(name: "user_id")
   user          User    @relation(fields: [userId], references: [id])
-  title         String  @unique
-  location      String  @unique
-  status        WebsiteStatus @default(PRIVATE)
+  name          String
   pages         Page[]
   defaultTheme  String  @map("default_theme")
   createdAt  DateTime   @default(now()) @map(name: "created_at")
