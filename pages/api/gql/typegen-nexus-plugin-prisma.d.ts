@@ -34,7 +34,7 @@ interface NexusPrismaInputs {
       ordering: 'id' | 'userId' | 'expires' | 'sessionToken' | 'accessToken' | 'createdAt' | 'updatedAt'
     }
     users: {
-      filtering: 'AND' | 'OR' | 'NOT' | 'id' | 'role' | 'name' | 'email' | 'emailVerified' | 'image' | 'createdAt' | 'updatedAt' | 'website'
+      filtering: 'AND' | 'OR' | 'NOT' | 'id' | 'role' | 'name' | 'email' | 'emailVerified' | 'image' | 'createdAt' | 'updatedAt' | 'websites'
       ordering: 'id' | 'role' | 'name' | 'email' | 'emailVerified' | 'image' | 'createdAt' | 'updatedAt'
     }
     verificationRequests: {
@@ -57,7 +57,10 @@ interface NexusPrismaInputs {
 
   }
   User: {
-
+    websites: {
+      filtering: 'AND' | 'OR' | 'NOT' | 'id' | 'userId' | 'user' | 'title' | 'location' | 'status' | 'pages' | 'defaultTheme' | 'createdAt' | 'updatedAt'
+      ordering: 'id' | 'userId' | 'title' | 'location' | 'status' | 'defaultTheme' | 'createdAt' | 'updatedAt'
+    }
   }
   VerificationRequest: {
 
@@ -158,7 +161,7 @@ interface NexusPrismaOutputs {
     image: 'String'
     createdAt: 'DateTime'
     updatedAt: 'DateTime'
-    website: 'Website'
+    websites: 'Website'
   }
   VerificationRequest: {
     id: 'Int'

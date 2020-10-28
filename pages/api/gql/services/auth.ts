@@ -1,37 +1,32 @@
-import { PrismaClient, User } from '@prisma/client';
 import { AuthenticationError } from 'apollo-server-micro';
 import { NextApiRequest } from 'next';
 import { getSession as nextAuthGetSession, Session } from 'next-auth/client';
 
+import { PrismaClient, User } from '@prisma/client';
+
 export class Auth {
   private session: Session;
-  private user: User;
 
   constructor(protected req: NextApiRequest, protected db: PrismaClient) {}
 
   public async getSession() {
     if (!this.session) {
-      return (this.session = await nextAuthGetSession({
+      this.session = await nextAuthGetSession({
         req: this.req
-      }));
+      });
     }
 
     return this.session;
   }
 
-  public async getUser() {
-    if (!this.user) {
-      const session = await this.getSession();
-      const { email } = session?.user;
+  public getUser() {
+    if (!this.session) {
+      this.getSession();
 
-      return (this.user = await this.db.user.findOne({
-        where: {
-          email
-        }
-      }));
+      return this.session?.user;
     }
 
-    return this.user;
+    return this.session?.user;
   }
 
   public async isLoggedIn(): Promise<boolean> {
@@ -39,8 +34,10 @@ export class Auth {
   }
 
   public async guardIsLoggedIn() {
-    if (await this.isLoggedIn()) {
+    if (!(await this.isLoggedIn())) {
       throw new AuthenticationError('must be logged in!');
     }
+
+    return true;
   }
 }
