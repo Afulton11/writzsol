@@ -1,0 +1,17 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "websites",
+      "type": "Website",
+      "arity": "List"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "User",
+      "field": "website"
+    }
+  ]
+}

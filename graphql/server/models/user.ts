@@ -13,6 +13,6 @@ export const user = objectType({
     t.model.createdAt();
     t.model.updatedAt();
 
-    t.model.website();
+    t.model.websites();
   }
 });
