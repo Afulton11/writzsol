@@ -14,23 +14,6 @@
     "isolatedModules": true,
     "jsx": "preserve"
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "styles/theme.js",
-    "pages/api/gql/nexus-typegen.ts",
-    "pages/api/gql/typegen-nexus-plugin-prisma.d.ts"
-  ],
-  "exclude": [
-    "dist",
-    ".next",
-    "out",
-    "prisma",
-    "node_modules",
-    "next.config.js",
-    "node_modules",
-    ".prettierrc.js",
-    "eslintrc.js"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
 }
