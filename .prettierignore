@@ -4,3 +4,5 @@ dist
 node_modules/
 .vercel/
 ..bfg-report/
+nexus-typegen.ts
+typegen-nexus-plugin-prisma.d.ts

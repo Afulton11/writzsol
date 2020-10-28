@@ -1,10 +1,24 @@
 import { ApolloServer } from 'apollo-server-micro';
-import { schema } from './schema';
 import { PrismaClient } from '@prisma/client';
+
+import { schema } from './schema';
 import { Context } from './services/context';
 import { Auth } from './services/auth';
+import { NextApiRequest } from 'next';
 
-const prisma = new PrismaClient();
+const db = new PrismaClient();
+
+const context = async ({ req }: { req: NextApiRequest }): Promise<Context> => {
+  const auth = new Auth(req, db);
+  const session = await auth.getSession();
+
+  return {
+    req,
+    db,
+    auth,
+    session
+  };
+};
 
 export const config = {
   api: {
@@ -13,11 +27,7 @@ export const config = {
 };
 export default new ApolloServer({
   schema,
-  context: ({ req }): Context => ({
-    req,
-    db: prisma,
-    auth: new Auth(req, prisma)
-  }),
+  context,
   playground: {
     settings: {
       'request.credentials': 'include'
