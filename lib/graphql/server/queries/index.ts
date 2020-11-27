@@ -7,9 +7,12 @@ export const queries = queryType({
       filtering: true,
       ordering: true,
       pagination: true,
+      authorize: async (_root, _args, { auth }) => auth.guardIsLoggedIn(),
     })
 
     t.crud.page()
-    t.crud.pages()
+    t.crud.pages({
+      authorize: async (_root, _args, { auth }) => auth.guardIsLoggedIn(),
+    })
   },
 })
