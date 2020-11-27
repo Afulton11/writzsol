@@ -1,42 +1,55 @@
 import React from 'react'
-import { Heading, Text, Grid, Spinner, Box } from '@chakra-ui/core'
-import { useSession } from 'next-auth/client'
+import { Heading, Text, Grid, Spinner, Box, useToast } from '@chakra-ui/core'
 import { useQuery } from '@apollo/client'
 
+import { useUser } from '../utils/hooks/useUser'
 import StandardLayout from '../components/layouts/standard-layout'
 import { WebsiteCard } from '../components/ui/website-card'
 import { withApollo } from '../lib/graphql/client/apollo-client'
 import { CreateWebsiteModal } from '../components/sections/create-website-modal'
 import { GET_USER_WEBSITES } from '../lib/graphql/client/website'
 
-const DasboardSkeleton = (
+const DashboardSkeleton = (
   <StandardLayout>
     <StandardLayout>
       <Heading alignSelf="flex-start">Site Dashboard</Heading>
       <Box w="100%">
-        <CreateWebsiteModal disabled={!session} />
+        <CreateWebsiteModal disabled />
       </Box>
       <Grid templateColumns="repeat(1, 1fr)" gap={6} mt={8}>
-        {renderWebsiteCards()}
+        <Spinner />
       </Grid>
     </StandardLayout>
   </StandardLayout>
 )
 
 function Dashboard(props) {
-  const [session, isSessionLoading] = useSession()
-  let isLoadingData = false
-  const isLoading = () => isSessionLoading || isLoadingData
-  const { isLoadingData = loading, error, data } = useQuery(GET_USER_WEBSITES)
+  const [user, isUserLoading] = useUser()
+  const toast = useToast()
+  const { error, loading, data } = useQuery(GET_USER_WEBSITES)
+
+  if (isUserLoading) return DashboardSkeleton
+  if (!user) return <p>Redirecting...</p>
+
+  const websites = data?.websites ?? []
+
+  if (error) {
+    toast({
+      title: 'Error fetching websites.',
+      description:
+        'We were unable to fetch your websites from our server. Try again later.',
+      status: 'error',
+      duration: 9000,
+      isClosable: true,
+    })
+  }
 
   const renderWebsiteCards = () => {
-    if (isLoading()) return <Spinner />
-    const { websites } = data
+    if (loading) return <Spinner />
 
-    if (!websites || websites.length == 0)
-      return <Text>{`No websites created.`}</Text>
+    if (websites.length == 0) return <Text>{`No websites created.`}</Text>
     else {
-      const websiteCards = data.websites.map((site) => (
+      const websiteCards = websites.map((site) => (
         <WebsiteCard {...site} key={site.id} />
       ))
 
@@ -48,7 +61,7 @@ function Dashboard(props) {
     <StandardLayout>
       <Heading alignSelf="flex-start">Site Dashboard</Heading>
       <Box w="100%">
-        <CreateWebsiteModal disabled={!session} />
+        <CreateWebsiteModal disabled={!user} />
       </Box>
       <Grid templateColumns="repeat(1, 1fr)" gap={6} mt={8}>
         {renderWebsiteCards()}
