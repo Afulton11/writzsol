@@ -297,11 +297,14 @@ input UserWhereUniqueInput {
 }
 
 type Website {
+  createdAt: DateTime!
   defaultTheme: String!
   id: Int!
+  location: String!
   pages(after: PageWhereUniqueInput, before: PageWhereUniqueInput, first: Int, last: Int): [Page!]!
   status: WebsiteStatus!
   title: String!
+  updatedAt: DateTime!
   user: User!
 }
 

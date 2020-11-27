@@ -1,8 +1,4 @@
 .next
-build/
-dist
-node_modules/
-.vercel/
-..bfg-report/
+public
 nexus-typegen.ts
 typegen-nexus-plugin-prisma.d.ts

@@ -1,14 +1,12 @@
-const webpack = require('webpack');
-
 module.exports = {
   webpack(config, { isServer }) {
     if (isServer) {
-      require('./scripts/generate-sitemap');
+      require('./scripts/generate-sitemap')
     }
 
     if (process.env.VERCEL_URL.includes('localhost')) {
-      config.devtool = 'eval-source-map';
+      config.devtool = 'eval-source-map'
     }
-    return config;
-  }
-};
+    return config
+  },
+}

@@ -3,7 +3,7 @@
  * Do not make changes to this file directly
  */
 
-import * as ContextModule from "./services/context"
+import * as ContextModule from "./pages/api/gql/services/context"
 import { FieldAuthorizeResolver } from "@nexus/schema/dist/plugins/fieldAuthorizePlugin"
 import { core } from "@nexus/schema"
 declare global {
@@ -410,10 +410,13 @@ export interface NexusGenRootTypes {
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
   Website: { // root type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
     defaultTheme: string; // String!
     id: number; // Int!
+    location: string; // String!
     status: NexusGenEnums['WebsiteStatus']; // WebsiteStatus!
     title: string; // String!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
 }
 
@@ -514,11 +517,14 @@ export interface NexusGenFieldTypes {
     websites: NexusGenRootTypes['Website'][]; // [Website!]!
   }
   Website: { // field return type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
     defaultTheme: string; // String!
     id: number; // Int!
+    location: string; // String!
     pages: NexusGenRootTypes['Page'][]; // [Page!]!
     status: NexusGenEnums['WebsiteStatus']; // WebsiteStatus!
     title: string; // String!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
     user: NexusGenRootTypes['User']; // User!
   }
 }

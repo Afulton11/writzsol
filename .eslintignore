@@ -1,6 +1,0 @@
-.next
-dist
-node_modules/
-nexus-typegen*
-typegen-nexus*
-prisma/client

@@ -1,8 +1,9 @@
-import React from 'react';
-import { Flex } from '@chakra-ui/core';
-import Header from '../sections/header';
+import React from 'react'
+import { Flex } from '@chakra-ui/core'
+import Header from '../sections/header'
+import { useSession, signIn, signOut } from 'next-auth/client'
 
-export default function LandingLayout(props) {
+export default function LandingLayout({ children, ...props }) {
   return (
     <Flex
       direction="column"
@@ -12,8 +13,8 @@ export default function LandingLayout(props) {
       {...props}
     >
       <Header />
-      {props.children}
+      {children}
       {/* <Footer /> */}
     </Flex>
-  );
+  )
 }
