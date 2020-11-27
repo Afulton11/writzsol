@@ -1,10 +1,9 @@
-import Head from 'next/head';
-import theme from '../styles/theme';
+import { Provider as AuthProvider } from 'next-auth/client'
+import { ThemeProvider, CSSReset } from '@chakra-ui/core'
+import { Global, css } from '@emotion/core'
 
-import { AppProps } from 'next/dist/next-server/lib/router/router';
-import { ThemeProvider, CSSReset } from '@chakra-ui/core';
-import { Global, css } from '@emotion/core';
-import { Provider as AuthProvider } from 'next-auth/client';
+import Head from 'next/head'
+import theme from '../utils/theme'
 
 const GlobalStyle = ({ children }) => (
   <>
@@ -29,9 +28,9 @@ const GlobalStyle = ({ children }) => (
     />
     {children}
   </>
-);
+)
 
-function WritzsolApp({ Component, pageProps }: AppProps) {
+function WritzsolApp({ Component, pageProps }) {
   return (
     <>
       <Head>
@@ -50,7 +49,7 @@ function WritzsolApp({ Component, pageProps }: AppProps) {
         </GlobalStyle>
       </ThemeProvider>
     </>
-  );
+  )
 }
 
-export default WritzsolApp;
+export default WritzsolApp

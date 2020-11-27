@@ -1,17 +1,17 @@
-import { extendType } from '@nexus/schema';
-import { Context } from 'nexus-plugin-prisma/typegen';
+import { extendType } from '@nexus/schema'
+import { Context } from 'nexus-plugin-prisma/typegen'
 import {
   // Page,
   PageUpdateArgs,
   PageCreateArgs,
   PageDeleteArgs,
-  PageWhereUniqueInput
+  PageWhereUniqueInput,
   // PageCreateInput
-} from '@prisma/client';
+} from '@prisma/client'
 
-import { PageError } from '../errors/page-errors';
+import { PageError } from '../errors/page-errors'
 
-import { authorizeUserOwnsWebsite } from './website';
+import { authorizeUserOwnsWebsite } from './website'
 
 export const pageMutations = extendType({
   type: 'Mutation',
@@ -20,60 +20,60 @@ export const pageMutations = extendType({
       authorize: async (_, args: PageCreateArgs, ctx) => {
         const [website, user] = await authorizeUserOwnsWebsite({
           whereWebsite: args.data.website.connect,
-          ctx
-        });
+          ctx,
+        })
 
-        return Boolean(website && user);
-      }
-    });
+        return Boolean(website && user)
+      },
+    })
     t.crud.updateOnePage({
       authorize: async (_, args: PageUpdateArgs, ctx) => {
         const [page, website, user] = await authorizePageEdit({
           wherePage: args.where,
-          ctx
-        });
+          ctx,
+        })
 
-        return Boolean(page && website && user);
-      }
-    });
+        return Boolean(page && website && user)
+      },
+    })
     t.crud.deleteOnePage({
       authorize: async (_, args: PageDeleteArgs, ctx) => {
         const [page, website, user] = await authorizePageEdit({
           wherePage: args.where,
-          ctx
-        });
+          ctx,
+        })
 
-        return Boolean(page && website && user);
-      }
-    });
-  }
-});
+        return Boolean(page && website && user)
+      },
+    })
+  },
+})
 
 const authorizePageEdit = async ({
   wherePage,
-  ctx
+  ctx,
 }: {
-  wherePage: PageWhereUniqueInput;
-  ctx: Context;
+  wherePage: PageWhereUniqueInput
+  ctx: Context
 }) => {
-  const { auth, db } = ctx;
+  const { auth, db } = ctx
 
-  auth.guardIsLoggedIn();
+  auth.guardIsLoggedIn()
 
   const page = await db.page.findOne({
-    where: wherePage
-  });
+    where: wherePage,
+  })
 
   if (!page) {
-    throw new PageError(`page does not exist!`, wherePage);
+    throw new PageError(`page does not exist!`, wherePage)
   }
 
   const [website, user] = await authorizeUserOwnsWebsite({
     whereWebsite: {
-      id: page.websiteId
+      id: page.websiteId,
     },
-    ctx
-  });
+    ctx,
+  })
 
-  return [page, website, user];
-};
+  return [page, website, user]
+}

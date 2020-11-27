@@ -1,26 +1,26 @@
-import path from 'path';
+import path from 'path'
 
-import { nexusSchemaPrisma } from 'nexus-plugin-prisma/schema';
-import { makeSchema, fieldAuthorizePlugin, asNexusMethod } from '@nexus/schema';
-import { GraphQLDateTime } from 'graphql-iso-date';
-import GraphQLJSON from 'graphql-type-json';
-import { GraphQLScalarType } from 'graphql';
+import { nexusSchemaPrisma } from 'nexus-plugin-prisma/schema'
+import { makeSchema, fieldAuthorizePlugin, asNexusMethod } from '@nexus/schema'
+import { GraphQLDateTime } from 'graphql-iso-date'
+import GraphQLJSON from 'graphql-type-json'
+import { GraphQLScalarType } from 'graphql'
 
-import * as allMutations from '../../../graphql/server/mutations';
-import * as allQueries from '../../../graphql/server/queries';
-import * as allModels from '../../../graphql/server/models';
+import * as allMutations from '../../../lib/graphql/server/mutations'
+import * as allQueries from '../../../lib/graphql/server/queries'
+import * as allModels from '../../../lib/graphql/server/models'
 
-import { Context } from './services/context';
+import { Context } from './services/context'
 
 export const JsonScalar = asNexusMethod(
   new GraphQLScalarType({
     ...GraphQLJSON,
-    name: 'Json'
+    name: 'Json',
   }),
   'json'
-);
+)
 
-export const DateTimeScalar = asNexusMethod(GraphQLDateTime, 'dateTime');
+export const DateTimeScalar = asNexusMethod(GraphQLDateTime, 'dateTime')
 
 export const schema = makeSchema({
   types: {
@@ -28,7 +28,7 @@ export const schema = makeSchema({
     JsonScalar,
     ...allModels,
     ...allQueries,
-    ...allMutations
+    ...allMutations,
   },
   plugins: [
     fieldAuthorizePlugin(),
@@ -36,7 +36,7 @@ export const schema = makeSchema({
       experimentalCRUD: true,
       scalars: {
         DateTime: DateTimeScalar,
-        Json: JsonScalar
+        Json: JsonScalar,
       },
       prismaClient: (ctx: Context) => ctx.db,
       outputs: {
@@ -47,31 +47,31 @@ export const schema = makeSchema({
           'api',
           'gql',
           'typegen-nexus-plugin-prisma.d.ts'
-        )
+        ),
       },
       computedInputs: {
         user: ({ ctx }) => {
           return {
             connect: {
-              id: ctx.session.user.id
-            }
-          };
-        }
-      }
-    })
+              email: ctx.session.user.email,
+            },
+          }
+        },
+      },
+    }),
   ],
   typegenAutoConfig: {
     sources: [
       {
         source: '@prisma/client',
-        alias: 'prisma'
+        alias: 'prisma',
       },
       {
         source: require.resolve('./services/context'),
-        alias: 'ContextModule'
-      }
+        alias: 'ContextModule',
+      },
     ],
-    contextType: 'ContextModule.Context'
+    contextType: 'ContextModule.Context',
   },
   outputs: {
     typegen: path.join(
@@ -81,6 +81,6 @@ export const schema = makeSchema({
       'gql',
       'nexus-typegen.ts'
     ),
-    schema: path.join(process.cwd(), 'pages', 'api', 'gql', 'schema.graphql')
-  }
-});
+    schema: path.join(process.cwd(), 'pages', 'api', 'gql', 'schema.graphql'),
+  },
+})

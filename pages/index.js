@@ -1,7 +1,6 @@
-import React from 'react';
-import SessionButtons from '../components/session-buttons';
+import SessionButtons from '../components/session-buttons'
 
-import { Heading, Flex, ButtonGroup } from '@chakra-ui/core';
+import { Heading, Flex, ButtonGroup } from '@chakra-ui/core'
 
 export default function Home() {
   return (
@@ -20,5 +19,5 @@ export default function Home() {
         <SessionButtons alignSelf="center" />
       </ButtonGroup>
     </Flex>
-  );
+  )
 }

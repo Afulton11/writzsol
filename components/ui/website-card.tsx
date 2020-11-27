@@ -1,7 +1,4 @@
-import TimeAgo from 'react-timeago';
-
-import { FC } from 'react';
-import { Website } from '@prisma/client';
+import { FC } from 'react'
 import {
   Heading,
   Button,
@@ -10,16 +7,18 @@ import {
   Badge,
   Divider,
   Text,
-  Link
-} from '@chakra-ui/core';
+  Link,
+} from '@chakra-ui/core'
+import TimeAgo from 'react-timeago'
+import { Website } from '@prisma/client'
 
-type WebsiteCardProps = Website;
+type WebsiteCardProps = Website
 
 export const WebsiteCard: FC<WebsiteCardProps> = ({
   title,
   status,
   location,
-  updatedAt
+  updatedAt,
 }) => (
   <Box minW="sm" borderWidth="1px" rounded="lg" overflow="hidden">
     <Box p={6}>
@@ -51,4 +50,4 @@ export const WebsiteCard: FC<WebsiteCardProps> = ({
       </Flex>
     </Box>
   </Box>
-);
+)

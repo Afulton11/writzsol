@@ -4,10 +4,7 @@
     {
       "tag": "CreateEnum",
       "enum": "WebsiteStatus",
-      "values": [
-        "PRIVATE",
-        "PUBLISHED"
-      ]
+      "values": ["PRIVATE", "PUBLISHED"]
     },
     {
       "tag": "CreateField",
