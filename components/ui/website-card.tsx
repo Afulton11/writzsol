@@ -20,7 +20,7 @@ export const WebsiteCard: FC<WebsiteCardProps> = ({
   location,
   updatedAt,
 }) => (
-  <Box minW="sm" borderWidth="1px" rounded="lg" overflow="hidden">
+  <Box maxW="lg" minW="sm" borderWidth="1px" rounded="lg" overflow="hidden">
     <Box p={6}>
       <Flex justify="space-between" mb={3}>
         <Heading size="lg">{title}</Heading>

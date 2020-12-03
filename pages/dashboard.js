@@ -1,22 +1,21 @@
 import React from 'react'
 import { Heading, Text, Grid, Spinner, Box, useToast } from '@chakra-ui/core'
-import { useQuery } from '@apollo/client'
 
 import { useUser } from '../utils/hooks/useUser'
 import StandardLayout from '../components/layouts/standard-layout'
 import { WebsiteCard } from '../components/ui/website-card'
 import { withApollo } from '../lib/graphql/client/apollo-client'
 import { CreateWebsiteModal } from '../components/sections/create-website-modal'
-import { GET_USER_WEBSITES } from '../lib/graphql/client/website'
+import { useWebsites } from '../lib/graphql/client/hooks/useWebsites'
 
 const DashboardSkeleton = (
   <StandardLayout>
     <StandardLayout>
-      <Heading alignSelf="flex-start">Site Dashboard</Heading>
+      <Heading alignSelf="flex-start">Dashboard</Heading>
       <Box w="100%">
         <CreateWebsiteModal disabled />
       </Box>
-      <Grid templateColumns="repeat(1, 1fr)" gap={6} mt={8}>
+      <Grid templateColumns="repeat(1fr, 1fr)" gap={6} mt={8}>
         <Spinner />
       </Grid>
     </StandardLayout>
@@ -26,12 +25,10 @@ const DashboardSkeleton = (
 function Dashboard(props) {
   const [user, isUserLoading] = useUser()
   const toast = useToast()
-  const { error, loading, data } = useQuery(GET_USER_WEBSITES)
+  const { error, loading, websites } = useWebsites()
 
   if (isUserLoading) return DashboardSkeleton
   if (!user) return <p>Redirecting...</p>
-
-  const websites = data?.websites ?? []
 
   if (error) {
     toast({
@@ -59,11 +56,11 @@ function Dashboard(props) {
 
   return (
     <StandardLayout>
-      <Heading alignSelf="flex-start">Site Dashboard</Heading>
+      <Heading alignSelf="flex-start">Dashboard</Heading>
       <Box w="100%">
         <CreateWebsiteModal disabled={!user} />
       </Box>
-      <Grid templateColumns="repeat(1, 1fr)" gap={6} mt={8}>
+      <Grid templateColumns="repeat(auto)" gap={6} mt={8}>
         {renderWebsiteCards()}
       </Grid>
     </StandardLayout>

@@ -17,35 +17,35 @@ import {
   useToast,
   Checkbox,
 } from '@chakra-ui/core'
-import { useSession } from 'next-auth/client'
-import { useCreateWebsiteMutation } from '../../lib/graphql/client/website'
+import {
+  GET_USER_WEBSITES,
+  useCreateWebsiteMutation,
+} from '../../lib/graphql/client/website'
+import { useUser } from '../../utils/hooks/useUser'
+import { useCreateWebsite } from '../../lib/graphql/client/hooks/useCreateWebsite'
 
 export function CreateWebsiteModal({ openAuthModal, disabled }) {
-  const [session, isSessionLoading] = useSession()
+  const [user, isUserLoading] = useUser()
   const initialRef = useRef()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const toast = useToast()
   const { handleSubmit, register, errors } = useForm()
 
   const [status, setStatus] = useState('PRIVATE')
-  const [createWebsite, { loading }] = useCreateWebsiteMutation()
+  const { createWebsite, loading } = useCreateWebsite()
 
   const onCreateWebsite = async (
     { title, location, defaultTheme, status },
     onClose
   ) => {
-    const createdWebsite = await createWebsite({
-      variables: {
-        website: {
-          title,
-          location,
-          defaultTheme,
-          status,
-        },
-      },
+    const { errors } = await createWebsite({
+      title,
+      location,
+      defaultTheme,
+      status,
     })
 
-    if (createdWebsite.errors) {
+    if (errors) {
       toast({
         title: 'An error occurred.',
         description: 'Unable to create user website. Are you logged in?',
@@ -59,7 +59,7 @@ export function CreateWebsiteModal({ openAuthModal, disabled }) {
   }
 
   const onOpenCreateModal = () => {
-    if (!isSessionLoading && !session) {
+    if (!isUserLoading && !user) {
       return openAuthModal()
     }
 

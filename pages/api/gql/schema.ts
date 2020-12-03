@@ -53,8 +53,13 @@ export const schema = makeSchema({
         user: ({ ctx }) => {
           return {
             connect: {
-              email: ctx.session.user.email,
+              id: ctx.session.user.id,
             },
+          }
+        },
+        userId: ({ ctx }) => {
+          return {
+            equals: ctx.session.user.id,
           }
         },
       },

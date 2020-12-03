@@ -7,18 +7,18 @@ import {
 
 import { PrismaClient, User } from '@prisma/client'
 
-type Session = NextAuthSession & {
+export type WritzsolSession = NextAuthSession & {
   user: User
 }
 
 export class Auth {
-  private session: Session
+  private session: WritzsolSession
 
   constructor(protected req: NextApiRequest, protected db: PrismaClient) {}
 
   public async getSession() {
     if (!this.session) {
-      this.session = <Session>await nextAuthGetSession({
+      this.session = <WritzsolSession>await nextAuthGetSession({
         req: this.req,
       })
     }
