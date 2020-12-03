@@ -1,18 +1,17 @@
-import { NextApiRequest } from 'next';
+import { NextApiRequest } from 'next'
 
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client'
 
-import { Auth } from './auth';
-import { Session } from 'next-auth/client';
+import { Auth, WritzsolSession } from './auth'
 
 export class Context {
-  db: PrismaClient;
+  db: PrismaClient
 
-  req: NextApiRequest;
+  req: NextApiRequest
 
-  auth: Auth;
+  auth: Auth
 
-  data?: any;
+  data?: any
 
-  session: Session;
+  session: WritzsolSession
 }

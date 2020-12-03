@@ -268,7 +268,6 @@ export interface NexusGenInputs {
     status?: NexusGenEnums['SortOrder'] | null; // SortOrder
     title?: NexusGenEnums['SortOrder'] | null; // SortOrder
     updatedAt?: NexusGenEnums['SortOrder'] | null; // SortOrder
-    userId?: NexusGenEnums['SortOrder'] | null; // SortOrder
   }
   WebsiteScalarWhereInput: { // input type
     AND?: NexusGenInputs['WebsiteScalarWhereInput'][] | null; // [WebsiteScalarWhereInput!]
@@ -281,7 +280,6 @@ export interface NexusGenInputs {
     status?: NexusGenInputs['EnumWebsiteStatusFilter'] | null; // EnumWebsiteStatusFilter
     title?: NexusGenInputs['StringFilter'] | null; // StringFilter
     updatedAt?: NexusGenInputs['DateTimeFilter'] | null; // DateTimeFilter
-    userId?: NexusGenInputs['IntFilter'] | null; // IntFilter
   }
   WebsiteUpdateInput: { // input type
     createdAt?: NexusGenInputs['DateTimeFieldUpdateOperationsInput'] | null; // DateTimeFieldUpdateOperationsInput
@@ -363,7 +361,6 @@ export interface NexusGenInputs {
     status?: NexusGenInputs['EnumWebsiteStatusFilter'] | null; // EnumWebsiteStatusFilter
     title?: NexusGenInputs['StringFilter'] | null; // StringFilter
     updatedAt?: NexusGenInputs['DateTimeFilter'] | null; // DateTimeFilter
-    userId?: NexusGenInputs['IntFilter'] | null; // IntFilter
   }
   WebsiteWhereUniqueInput: { // input type
     id?: number | null; // Int
@@ -502,7 +499,6 @@ export interface NexusGenFieldTypes {
   Query: { // field return type
     page: NexusGenRootTypes['Page'] | null; // Page
     pages: NexusGenRootTypes['Page'][]; // [Page!]!
-    website: NexusGenRootTypes['Website'] | null; // Website
     websites: NexusGenRootTypes['Website'][]; // [Website!]!
   }
   User: { // field return type
@@ -565,9 +561,6 @@ export interface NexusGenArgTypes {
       before?: NexusGenInputs['PageWhereUniqueInput'] | null; // PageWhereUniqueInput
       first?: number | null; // Int
       last?: number | null; // Int
-    }
-    website: { // args
-      where: NexusGenInputs['WebsiteWhereUniqueInput']; // WebsiteWhereUniqueInput!
     }
     websites: { // args
       after?: NexusGenInputs['WebsiteWhereUniqueInput'] | null; // WebsiteWhereUniqueInput

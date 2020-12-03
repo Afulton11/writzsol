@@ -228,7 +228,6 @@ input PageWhereUniqueInput {
 type Query {
   page(where: PageWhereUniqueInput!): Page
   pages(after: PageWhereUniqueInput, before: PageWhereUniqueInput, first: Int, last: Int): [Page!]!
-  website(where: WebsiteWhereUniqueInput!): Website
   websites(after: WebsiteWhereUniqueInput, before: WebsiteWhereUniqueInput, first: Int, last: Int, orderBy: [WebsiteOrderByInput!], where: WebsiteWhereInput): [Website!]!
 }
 
@@ -350,7 +349,6 @@ input WebsiteOrderByInput {
   status: SortOrder
   title: SortOrder
   updatedAt: SortOrder
-  userId: SortOrder
 }
 
 input WebsiteScalarWhereInput {
@@ -364,7 +362,6 @@ input WebsiteScalarWhereInput {
   status: EnumWebsiteStatusFilter
   title: StringFilter
   updatedAt: DateTimeFilter
-  userId: IntFilter
 }
 
 """The website status."""
@@ -463,7 +460,6 @@ input WebsiteWhereInput {
   status: EnumWebsiteStatusFilter
   title: StringFilter
   updatedAt: DateTimeFilter
-  userId: IntFilter
 }
 
 input WebsiteWhereUniqueInput {

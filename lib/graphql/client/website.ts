@@ -23,11 +23,14 @@ export const CREATE_WEBSITE = gql`
       title
       location
       status
+      defaultTheme
+      updatedAt
+      createdAt
     }
   }
 `
 
-export const GET_USER_WEBSITES = gql`
+export const GET_WEBSITES = gql`
   query {
     websites(orderBy: { updatedAt: desc }) {
       id
@@ -39,13 +42,3 @@ export const GET_USER_WEBSITES = gql`
     }
   }
 `
-
-export const useCreateWebsiteMutation = (website?: WebsiteVars) =>
-  useMutation<{ createWebsite: WebsiteData }, { website: WebsiteVars }>(
-    CREATE_WEBSITE,
-    {
-      variables: {
-        website,
-      },
-    }
-  )
