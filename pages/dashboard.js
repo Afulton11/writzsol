@@ -10,15 +10,13 @@ import { useWebsites } from '../lib/graphql/client/hooks/useWebsites'
 
 const DashboardSkeleton = (
   <StandardLayout>
-    <StandardLayout>
-      <Heading alignSelf="flex-start">Dashboard</Heading>
-      <Box w="100%">
-        <CreateWebsiteModal disabled />
-      </Box>
-      <Grid templateColumns="repeat(1fr, 1fr)" gap={6} mt={8}>
-        <Spinner />
-      </Grid>
-    </StandardLayout>
+    <Heading alignSelf="flex-start">Dashboard</Heading>
+    <Box w="100%">
+      <CreateWebsiteModal disabled />
+    </Box>
+    <Grid templateColumns="repeat(1fr, 1fr)" gap={6} mt={8}>
+      <Spinner />
+    </Grid>
   </StandardLayout>
 )
 
