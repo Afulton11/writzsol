@@ -8,7 +8,7 @@ import { GraphQLScalarType } from 'graphql'
 
 import * as allMutations from '../../../lib/graphql/server/mutations'
 import * as allQueries from '../../../lib/graphql/server/queries'
-import * as allModels from '../../../lib/graphql/server/models'
+import * as allModels from '../../../lib/graphql/server/models.old'
 
 import { Context } from './services/context'
 
