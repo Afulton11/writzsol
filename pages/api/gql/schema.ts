@@ -66,14 +66,13 @@ export const schema = makeSchema({
     }),
   ],
   typegenAutoConfig: {
+    headers: [
+      'import * as ContextModule from "./services/context"'
+    ],
     sources: [
       {
         source: '@prisma/client',
         alias: 'prisma',
-      },
-      {
-        source: require.resolve('./services/context'),
-        alias: 'ContextModule',
       },
     ],
     contextType: 'ContextModule.Context',
