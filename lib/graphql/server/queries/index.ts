@@ -1,4 +1,5 @@
 import { queryType } from '@nexus/schema'
+import { FindManyWebsiteArgs } from '@prisma/client'
 
 export const queries = queryType({
   definition(t) {
@@ -12,7 +13,7 @@ export const queries = queryType({
           .findOne({
             where: { id: session.user.id },
           })
-          .websites(args)
+          .websites(<FindManyWebsiteArgs>args)
       },
     })
 
