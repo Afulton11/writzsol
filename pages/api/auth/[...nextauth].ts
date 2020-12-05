@@ -1,10 +1,6 @@
 import NextAuth from 'next-auth'
 import Providers from 'next-auth/providers'
-import Adapters from 'next-auth/adapters'
-import { PrismaClient, User } from '@prisma/client'
 import { Session } from 'next-auth/client'
-
-const prisma = new PrismaClient()
 
 const options = {
   providers: [
@@ -17,7 +13,6 @@ const options = {
       clientSecret: process.env.GITHUB_SECRET,
     }),
   ],
-  adapter: Adapters.Prisma.Adapter({ prisma }),
   secret: process.env.SECRET,
   callbacks: {
     session: async (session: Session, user: User) => {
