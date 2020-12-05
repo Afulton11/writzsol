@@ -18,8 +18,22 @@
     "lint": "eslint . --ext .json --ext .js",
     "prettier": "prettier --write \"**/*.{html,js,ts,tsx,jsx,md,yml}\"",
     "generate": "npm -s run generate:prisma && npm -s run generate:nexus",
-    "generate:prisma": "prisma generate",
-    "generate:nexus": "ts-node --transpile-only -P nexus.tsconfig.json pages/api/gql/schema"
+    "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js",
+    "g:migration": "yarn typeorm:local migration:generate -n",
+    "g:entity": "yarn typeorm:local entity:create -n",
+    "db:setup": "yarn db:create:dev && yarn db:create:test",
+    "db:create:dev": "createdb --owner=postgres writzsol_dev",
+    "db:migrate:local": "yarn typeorm:local migration:run",
+    "db:revert:local": "yarn typeorm:local migration:revert",
+    "db:drop:local": "yarn typeorm:local schema:drop",
+    "typeorm:local": "yarn local ./node_modules/typeorm/cli.js",
+    "local": "DOTENV_CONFIG_PATH=./.env ts-node -P ./tsconfig.typeorm.json -r dotenv/config",
+    "db:create:test": "createdb --owner=postgres writzsol_test",
+    "db:migrate:local:test": "yarn typeorm:local:test migration:run",
+    "db:revert:local:test": "yarn typeorm:local:test migration:revert",
+    "db:drop:local:test": "yarn typeorm:local:test schema:drop",
+    "typeorm:local:test": "yarn local:test ./node_modules/typeorm/cli.js",
+    "local:testing": "DOTENV_CONFIG_PATH=./.env.test ts-node -P ./tsconfig.yarn.json -r dotenv/config"
   },
   "dependencies": {
     "@apollo/react-hooks": "^4.0.0",
@@ -42,6 +56,7 @@
     "graphql-type-json": "^0.3.2",
     "next": "^10.0.0",
     "next-auth": "^3.1.0",
+    "pg": "^8.5.1",
     "react": "16.13.1",
     "react-apollo": "^3.1.5",
     "react-dom": "16.13.1",
@@ -52,9 +67,10 @@
     "typeorm": "^0.2.29"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-decorators": "^7.12.1",
     "@prisma/cli": "^2.9.0",
     "@types/lodash": "^4.14.162",
-    "@types/next-auth": "^3.1.14",
+    "@types/next-auth": "^3.1.18",
     "@types/node": "^14.11.8",
     "@types/react": "^16.9.52",
     "@types/styled-components": "^5.1.4",
@@ -63,11 +79,11 @@
     "husky": "^4.3.0",
     "lint-staged": "^10.4.0",
     "prettier": "^2.1.2",
-    "ts-node": "^9.0.0",
+    "ts-node": "^9.1.0",
     "typescript": "^4.0.3"
   },
   "resolutions": {
-    "webpack": "^5.0.0-beta.30"
+    "webpack": "^5.10.0"
   },
   "husky": {
     "hooks": {
