@@ -38,5 +38,5 @@ yarn-error.log*
 *.log
 public/sitemap.xml
 .now
-
 *bfg-report/
+ormconfig.*
