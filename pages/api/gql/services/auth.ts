@@ -5,7 +5,7 @@ import {
   Session as NextAuthSession,
 } from 'next-auth/client'
 
-import { PrismaClient, User } from '@prisma/client'
+import { User } from '../../../../lib/graphql/server'
 
 export type WritzsolSession = NextAuthSession & {
   user: User

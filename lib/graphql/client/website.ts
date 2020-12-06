@@ -1,5 +1,5 @@
-import { useQuery, useMutation, gql } from '@apollo/client'
-import { WebsiteStatus } from '@prisma/client'
+import { gql } from '@apollo/client'
+import { WebsiteStatus } from '../server'
 
 interface WebsiteData {
   id: number

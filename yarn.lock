@@ -1428,24 +1428,6 @@
   resolved "https://registry.yarnpkg.com/@panva/asn1.js/-/asn1.js-1.0.0.tgz#dd55ae7b8129e02049f009408b97c61ccf9032f6"
   integrity sha512-UdkG3mLEqXgnlKsWanWcgb6dOjUzJ+XC5f+aWw30qrtjxeNUSfKX1cd5FBzOaXQumoe9nIqeZUvrRJS03HCCtw==
 
-"@prisma/bar@^0.0.0":
-  version "0.0.0"
-  resolved "https://registry.yarnpkg.com/@prisma/bar/-/bar-0.0.0.tgz#9daff159a1a09abf7665a8b6e40ddc1fdc1ed4f7"
-  integrity sha512-3nez9n/vMyAr4+nmqj6Xh3cGZbreYHr3RWX0vgtrFRpiN6otuCzL+9HW8MW/DfZNuFz5YyIdfwnRSPueUZPoWQ==
-
-"@prisma/cli@^2.9.0":
-  version "2.10.0"
-  resolved "https://registry.yarnpkg.com/@prisma/cli/-/cli-2.10.0.tgz#a51baf3a38c9e12c7fec489b675c1d4efc8aff05"
-  integrity sha512-qJl891HvroM1oEWYeG8+h/JJ+wNi4MCyh7x+HAnmrIYGFW45QAsCWjHbn0mUuCSXCy3KwiN/iAwaY2Fr7ZNJEw==
-  dependencies:
-    "@prisma/bar" "^0.0.0"
-    "@prisma/engines" "2.10.0-16-af1ae11a423edfb5d24092a85be11fa77c5e499c"
-
-"@prisma/engines@2.10.0-16-af1ae11a423edfb5d24092a85be11fa77c5e499c":
-  version "2.10.0-16-af1ae11a423edfb5d24092a85be11fa77c5e499c"
-  resolved "https://registry.yarnpkg.com/@prisma/engines/-/engines-2.10.0-16-af1ae11a423edfb5d24092a85be11fa77c5e499c.tgz#3a981953cef6fc0524fd7a8f8c5d714202b9c26b"
-  integrity sha512-59htYpsqdVVe7aElozUZ3/eV/ujwrUvaE+KVcNyzFh0yFIL7FLbSly55KWlyUdDWyB+0eTyd/yV7E/iKYnOF/Q==
-
 "@protobufjs/aspromise@^1.1.1", "@protobufjs/aspromise@^1.1.2":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@protobufjs/aspromise/-/aspromise-1.1.2.tgz#9b8b0cc663d669a7d8f6f5d0893a14d348f30fbf"
