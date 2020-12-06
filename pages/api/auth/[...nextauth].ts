@@ -1,6 +1,9 @@
+import 'reflect-metadata'
 import NextAuth from 'next-auth'
 import Providers from 'next-auth/providers'
 import { Session } from 'next-auth/client'
+import { User } from '../../../lib/graphql/server'
+import { WritzsolTypeORMAdapter } from '../../../lib/graphql/server/auth/'
 
 const options = {
   providers: [
@@ -13,6 +16,7 @@ const options = {
       clientSecret: process.env.GITHUB_SECRET,
     }),
   ],
+  adapter: new WritzsolTypeORMAdapter(),
   secret: process.env.SECRET,
   callbacks: {
     session: async (session: Session, user: User) => {
@@ -22,6 +26,6 @@ const options = {
   },
 }
 
-export default (req, res) => {
+export default function AuthenticationHandler(req, res) { 
   return NextAuth(req, res, options)
 }
