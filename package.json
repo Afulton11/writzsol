@@ -25,12 +25,20 @@
     "db:create:test": "createdb --owner=postgres writzsol_test",
     "db:migrate:local": "yarn typeorm:local migration:run",
     "db:migrate:local:test": "yarn typeorm:local:test migration:run",
+    "db:migrate:dev": "yarn typeorm:dev migration:run",
+    "db:migrate:prod": "yarn typeorm:prod migration:run",
     "db:revert:local": "yarn typeorm:local migration:revert",
     "db:revert:local:test": "yarn typeorm:local:test migration:revert",
+    "db:revert:dev": "yarn typeorm:dev migration:revert",
+    "db:revert:prod": "yarn typeorm:prod migration:revert",
     "db:drop:local": "yarn typeorm:local schema:drop",
     "db:drop:local:test": "yarn typeorm:local:test schema:drop",
+    "db:drop:dev": "yarn typeorm:dev schema:drop",
+    "db:drop:prod": "yarn typeorm:prod schema:drop",
     "typeorm:local": "yarn --cwd ./pages/api/gql typeorm:local",
-    "typeorm:local:test": "yarn --cwd ./pages/api/gql local:test ./node_modules/typeorm/cli.js"
+    "typeorm:local:test": "yarn --cwd ./pages/api/gql typeorm:local:test",
+    "typeorm:dev": "yarn --cwd ./pages/api/gql typeorm:dev",
+    "typeorm:prod": "yarn --cwd ./pages/api/gql typeorm:prod"
   },
   "dependencies": {
     "@apollo/react-hooks": "^4.0.0",
