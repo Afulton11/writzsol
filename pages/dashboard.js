@@ -4,7 +4,6 @@ import { Heading, Text, Grid, Spinner, Box, useToast } from '@chakra-ui/core'
 import { useUser } from '../utils/hooks/useUser'
 import StandardLayout from '../components/layouts/standard-layout'
 import { WebsiteCard } from '../components/ui/website-card'
-import { withApollo } from '../lib/graphql/client/apollo-client'
 import { CreateWebsiteModal } from '../components/sections/create-website-modal'
 import { useWebsites } from '../lib/graphql/client/hooks/useWebsites'
 
@@ -20,7 +19,7 @@ const DashboardSkeleton = (
   </StandardLayout>
 )
 
-function Dashboard(props) {
+export default function Dashboard(props) {
   const [user, isUserLoading] = useUser()
   const toast = useToast()
   const { error, loading, websites } = useWebsites()
@@ -64,5 +63,3 @@ function Dashboard(props) {
     </StandardLayout>
   )
 }
-
-export default withApollo(Dashboard, { ssr: false })

@@ -21,13 +21,13 @@ export class Website extends EditableEntity {
 
   @Column('varchar', {
     length: 60,
-    unique: true,
   })
   @Field((type) => String, { description: 'title for the website' })
   title: string
 
   @Column('varchar', {
     length: 120,
+    unique: true,
   })
   @Field((type) => String, {
     description: 'the website\'s baseUrl, e.g. "/andrew"',

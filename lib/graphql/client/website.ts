@@ -40,6 +40,19 @@ export const CREATE_WEBSITE = gql`
   }
 `
 
+export const GET_WEBSITE_BY_LOCATION = gql`
+  query getWebsiteByLocation($location: String!) {
+    getWebsiteByLocation(location: $location) {
+      title
+      location
+      status
+      defaultTheme
+      updatedAt
+      createdAt
+    }
+  }
+`
+
 export const GET_WEBSITES = gql`
   query {
     websites(orderBy: { updatedAt: DESC }) {
