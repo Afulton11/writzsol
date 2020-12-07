@@ -1,7 +1,8 @@
 import { Provider as AuthProvider } from 'next-auth/client'
 import { ThemeProvider, CSSReset } from '@chakra-ui/core'
 import { Global, css } from '@emotion/core'
-
+import { ApolloProvider } from '@apollo/client'
+import { useApollo } from '../lib/graphql/apollo-client'
 import Head from 'next/head'
 import theme from '../utils/theme'
 
@@ -31,6 +32,8 @@ const GlobalStyle = ({ children }) => (
 )
 
 function WritzsolApp({ Component, pageProps }) {
+  const apolloClient = useApollo(pageProps)
+
   return (
     <>
       <Head>
@@ -44,7 +47,9 @@ function WritzsolApp({ Component, pageProps }) {
       <ThemeProvider theme={theme}>
         <GlobalStyle>
           <AuthProvider session={pageProps.session}>
-            <Component {...pageProps} />
+            <ApolloProvider client={apolloClient}>
+              <Component {...pageProps} />
+            </ApolloProvider>
           </AuthProvider>
         </GlobalStyle>
       </ThemeProvider>

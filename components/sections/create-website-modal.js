@@ -152,7 +152,7 @@ export function CreateWebsiteModal({ openAuthModal, disabled }) {
               <FormControl mt={4}>
                 <Checkbox
                   onChange={(e) =>
-                    setStatus(e.target.value ? 'PUBLISHED' : 'PRIVATE')
+                    setStatus(e.target.checked ? 'PUBLISHED' : 'PRIVATE')
                   }
                 >
                   Make Public
