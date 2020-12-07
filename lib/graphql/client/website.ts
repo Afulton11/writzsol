@@ -17,8 +17,18 @@ export interface WebsiteVars {
 }
 
 export const CREATE_WEBSITE = gql`
-  mutation CreateWebsite($website: WebsiteCreateInput!) {
-    createWebsite(data: $website) {
+  mutation createWebsite(
+    $title: String!
+    $location: String!
+    $defaultTheme: String
+    $status: WebsiteStatus
+  ) {
+    createWebsite(
+      title: $title
+      location: $location
+      defaultTheme: $defaultTheme
+      status: $status
+    ) {
       id
       title
       location
@@ -32,7 +42,7 @@ export const CREATE_WEBSITE = gql`
 
 export const GET_WEBSITES = gql`
   query {
-    websites(orderBy: { updatedAt: desc }) {
+    websites(orderBy: { updatedAt: DESC }) {
       id
       title
       location
