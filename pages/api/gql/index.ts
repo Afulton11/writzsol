@@ -3,12 +3,13 @@ import '../../../initializers/database'
 import { ApolloServer } from 'apollo-server-micro'
 import { buildSchema } from 'type-graphql'
 import { NextApiRequest } from 'next'
-import { Context, Auth } from './services'
+import { Context, Auth, writzsolAuthChecker } from './services'
 import * as resolversObject from '../../../lib/graphql/server/resolvers'
 
 const schema = await buildSchema({
   //@ts-ignore
   resolvers: Object.values(resolversObject),
+  authChecker: writzsolAuthChecker,
 })
 
 const context = async ({ req }: { req: NextApiRequest }): Promise<Context> => {
