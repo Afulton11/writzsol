@@ -1,4 +1,5 @@
 import 'reflect-metadata'
+import '../../../initializers/database'
 import NextAuth from 'next-auth'
 import Providers from 'next-auth/providers'
 import { Session } from 'next-auth/client'
