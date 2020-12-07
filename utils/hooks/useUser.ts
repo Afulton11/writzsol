@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/client'
-import { User } from '@prisma/client'
+import { User } from '../../lib/graphql/server'
 
 type useUserType = [User, boolean]
 

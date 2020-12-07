@@ -1,7 +1,12 @@
-import { enumType } from '@nexus/schema'
+import { registerEnumType } from 'type-graphql'
 
-export const role = enumType({
+export enum Role {
+  USER = 'USER',
+  ADMIN = 'ADMIN',
+  DEVELOPER = 'DEVELOPER',
+}
+
+registerEnumType(Role, {
   name: 'Role',
-  members: ['USER', 'ADMIN', 'DEVELOPER'],
-  description: 'The types of user authorization roles',
+  description: 'The types of authorization roles for users',
 })

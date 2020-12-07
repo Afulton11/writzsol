@@ -10,7 +10,7 @@ import {
   Link,
 } from '@chakra-ui/core'
 import TimeAgo from 'react-timeago'
-import { Website } from '@prisma/client'
+import { Website } from '../../lib/graphql/server'
 
 type WebsiteCardProps = Website
 
