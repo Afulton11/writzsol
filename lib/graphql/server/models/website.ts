@@ -2,7 +2,15 @@ import { ObjectType, Field, ID } from 'type-graphql'
 import { User } from './user'
 import { WebsiteStatus } from './website-status'
 import { EditableEntity } from './common'
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm'
+import { Page } from './page'
 
 @Entity()
 @ObjectType({ implements: EditableEntity })
@@ -45,10 +53,15 @@ export class Website extends EditableEntity {
   defaultTheme: string
 
   @Column('uuid')
-  @Field(type => ID)
-  userId: string;
-  
+  @Field((type) => ID)
+  userId: string
+
   @OneToMany((type) => User, (user) => user.websites)
-  @Field((type) => User, {nullable: true})
+  @Field((type) => User, { nullable: true })
   user: User
+
+  @OneToMany((type) => Page, page => page.website,  { nullable: true })
+  @Field((type) => [Page], { nullable: true, defaultValue: [] })
+  @JoinTable()
+  pages: Promise<Page[]>;
 }
