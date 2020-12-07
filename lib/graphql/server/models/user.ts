@@ -1,18 +1,66 @@
-import { objectType } from '@nexus/schema'
-import { role } from './role'
+import { ObjectType, Field, ID } from 'type-graphql'
+import {
+  Column,
+  Entity,
+  Index,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm'
+import { Role } from './role'
+import { Website } from './website'
+import { EditableEntity } from './common'
 
-export const user = objectType({
-  name: 'User',
-  definition(t) {
-    t.model.id()
-    t.model.role()
-    t.model.name()
-    t.model.email()
-    t.model.emailVerified()
-    t.model.image()
-    t.model.createdAt()
-    t.model.updatedAt()
+@Entity()
+@ObjectType({ implements: EditableEntity })
+export class User extends EditableEntity {
+  @PrimaryGeneratedColumn('uuid')
+  @Field((type) => ID)
+  id: string
 
-    t.model.websites()
-  },
-})
+  @Column('varchar', {
+    length: 255,
+    nullable: true,
+  })
+  @Field((type) => String, {
+    nullable: true,
+  })
+  name: string
+
+  @Index({ unique: true })
+  @Column('varchar', {
+    length: 320,
+    nullable: true,
+  })
+  @Field((type) => String, {
+    nullable: true,
+  })
+  email: string
+
+  @Column('timestamp with time zone', {
+    nullable: true,
+  })
+  @Field((type) => Date, {
+    nullable: true,
+  })
+  emailVerified: Date
+
+  @Column('text', {
+    nullable: true,
+  })
+  @Field((type) => String, {
+    nullable: true,
+  })
+  image: string
+
+  @Column({
+    type: 'enum',
+    enum: Role,
+    default: Role.USER,
+  })
+  @Field((type) => Role, { defaultValue: Role.USER })
+  role: Role
+
+  @ManyToOne((type) => Website, (website) => website.user)
+  @Field((type) => [Website])
+  websites: Website[]
+}

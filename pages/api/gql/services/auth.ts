@@ -5,7 +5,7 @@ import {
   Session as NextAuthSession,
 } from 'next-auth/client'
 
-import { PrismaClient, User } from '@prisma/client'
+import { User } from '../../../../lib/graphql/server'
 
 export type WritzsolSession = NextAuthSession & {
   user: User
@@ -14,7 +14,7 @@ export type WritzsolSession = NextAuthSession & {
 export class Auth {
   private session: WritzsolSession
 
-  constructor(protected req: NextApiRequest, protected db: PrismaClient) {}
+  constructor(protected req: NextApiRequest) {}
 
   public async getSession() {
     if (!this.session) {

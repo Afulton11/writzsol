@@ -1,10 +1,9 @@
+import 'reflect-metadata'
 import NextAuth from 'next-auth'
 import Providers from 'next-auth/providers'
-import Adapters from 'next-auth/adapters'
-import { PrismaClient, User } from '@prisma/client'
 import { Session } from 'next-auth/client'
-
-const prisma = new PrismaClient()
+import { User } from '../../../lib/graphql/server'
+import { WritzsolTypeORMAdapter } from '../../../lib/graphql/server/auth/'
 
 const options = {
   providers: [
@@ -17,7 +16,7 @@ const options = {
       clientSecret: process.env.GITHUB_SECRET,
     }),
   ],
-  adapter: Adapters.Prisma.Adapter({ prisma }),
+  adapter: new WritzsolTypeORMAdapter(),
   secret: process.env.SECRET,
   callbacks: {
     session: async (session: Session, user: User) => {
@@ -27,6 +26,6 @@ const options = {
   },
 }
 
-export default (req, res) => {
+export default function AuthenticationHandler(req, res) { 
   return NextAuth(req, res, options)
 }

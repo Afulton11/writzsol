@@ -1,7 +1,11 @@
-import { enumType } from '@nexus/schema'
+import { registerEnumType } from 'type-graphql'
 
-export const websiteStatus = enumType({
+export enum WebsiteStatus {
+  PRIVATE = 'PRIVATE',
+  PUBLISHED = 'PUBLISHED',
+}
+
+registerEnumType(WebsiteStatus, {
   name: 'WebsiteStatus',
-  members: ['PRIVATE', 'PUBLISHED'],
-  description: 'The website status.',
+  description: 'The published status for a website.',
 })
