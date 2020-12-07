@@ -13,6 +13,7 @@ export class Website extends EditableEntity {
 
   @Column('varchar', {
     length: 60,
+    unique: true,
   })
   @Field((type) => String, { description: 'title for the website' })
   title: string
@@ -43,6 +44,11 @@ export class Website extends EditableEntity {
   })
   defaultTheme: string
 
+  @Column('uuid')
+  @Field(type => ID)
+  userId: string;
+  
   @OneToMany((type) => User, (user) => user.websites)
+  @Field((type) => User, {nullable: true})
   user: User
 }
