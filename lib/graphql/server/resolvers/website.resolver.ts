@@ -25,55 +25,57 @@ export class CreateWebsiteArgs implements Partial<Website> {
 
 @Resolver(Website)
 export class WebsiteResolver {
-
   @Authorized()
   @Mutation((returns) => Website)
   async createWebsite(
-    @Args(type => CreateWebsiteArgs) website: CreateWebsiteArgs,
+    @Args((type) => CreateWebsiteArgs) website: CreateWebsiteArgs,
     @Ctx() { session }: Context
   ): Promise<Website> {
-    if (!website.status) website.status = WebsiteStatus.PRIVATE;
-    if (!website.defaultTheme) website.defaultTheme = 'light';
+    if (!website.status) website.status = WebsiteStatus.PRIVATE
+    if (!website.defaultTheme) website.defaultTheme = 'light'
 
-    const websiteRepository = getRepository<Website>("website")
-    
+    const websiteRepository = getRepository<Website>('website')
+
     return websiteRepository.save({
       ...website,
-      userId: session.user.id
-    });
+      userId: session.user.id,
+    })
   }
 
   @Query((returns) => Website, { nullable: true })
-  async getWebsiteByTitle(
-    @Arg('title', type => String) title: string,
+  async getWebsiteByLocation(
+    @Arg('location', (type) => String) location: string
   ): Promise<Website> {
-    const websiteRepository = getRepository<Website>("website") 
-    
+    const websiteRepository = getRepository<Website>('website')
+
     return websiteRepository.findOne({
       where: {
         status: WebsiteStatus.PUBLISHED,
-        title
-      }
-    });
+        location,
+      },
+    })
   }
 
   @Authorized()
   @Query((returns) => [Website])
   async websites(
-    @Arg('orderBy', type => OrderByInput, { nullable: true, defaultValue: { updatedAt: OrderDirection.DESC } }) orderBy: OrderByInput,
+    @Arg('orderBy', (type) => OrderByInput, {
+      nullable: true,
+      defaultValue: { updatedAt: OrderDirection.DESC },
+    })
+    orderBy: OrderByInput,
     @Ctx() { session }: Context
   ): Promise<Website[]> {
-    const websiteRepository = getRepository<Website>("website")
+    const websiteRepository = getRepository<Website>('website')
     const userId = session.user.id
 
     return websiteRepository.find({
       where: {
-        userId
+        userId,
       },
       order: {
-        ...orderBy
+        ...orderBy,
       },
     })
   }
-
 }
