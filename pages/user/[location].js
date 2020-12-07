@@ -24,8 +24,6 @@ export async function getStaticProps({ params }) {
       client: apolloClient,
     })
 
-    console.log('[LOCATION] website', website)
-
     return {
       revalidate: 5,
       props: {
