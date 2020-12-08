@@ -17,6 +17,7 @@ import { OrderByInput, OrderDirection } from './common'
 import '../../../../initializers/database'
 import { IsOptional, MaxLength } from 'class-validator'
 import { UserInputError } from 'apollo-server-micro'
+import { removeEmptyProperties } from '../../../../utils'
 
 @ArgsType()
 export class CreateWebsiteArgs implements Partial<Website> {
@@ -45,23 +46,22 @@ export class SaveWebsiteInput implements Partial<Website> {
 
   @IsOptional()
   @MaxLength(60)
-  @Field((type) => String)
-  title: string
+  @Field((type) => String, { nullable: true })
+  title?: string
 
   @IsOptional()
   @MaxLength(120)
-  @Field((type) => String)
-  location: string
+  @Field((type) => String, { nullable: true })
+  location?: string
 
   @IsOptional()
   @Field((type) => WebsiteStatus, {
     nullable: true,
-    defaultValue: WebsiteStatus.PRIVATE,
   })
   status?: WebsiteStatus
 
   @IsOptional()
-  @Field((type) => String, { nullable: true, defaultValue: 'light' })
+  @Field((type) => String, { nullable: true })
   defaultTheme?: string
 }
 
@@ -85,14 +85,15 @@ export class WebsiteResolver {
   }
 
   @Authorized()
-  @Query((returns) => Website)
+  @Mutation((returns) => Website)
   async saveWebsite(
-    @Arg('website') website: SaveWebsiteInput,
+    @Arg('website', (type) => SaveWebsiteInput) website: SaveWebsiteInput,
     @Ctx() { session }: Context
   ): Promise<Website> {
+    const cleanedWebsite = removeEmptyProperties(website)
     const websiteRepository = getRepository<Website>(Website.name)
 
-    const oldWebsite = websiteRepository.findOne({
+    const oldWebsite = await websiteRepository.findOne({
       where: {
         id: website.id,
         userId: session.user.id,
@@ -101,7 +102,12 @@ export class WebsiteResolver {
 
     if (!oldWebsite) throw new UserInputError('The website was not found')
 
-    return websiteRepository.save(website)
+    const savedData = await websiteRepository.save(cleanedWebsite)
+
+    return {
+      ...oldWebsite,
+      ...savedData,
+    }
   }
 
   @Query((returns) => Website, { nullable: true })
