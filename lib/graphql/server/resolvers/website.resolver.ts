@@ -57,6 +57,22 @@ export class WebsiteResolver {
   }
 
   @Authorized()
+  @Query((returns) => Website, { nullable: true })
+  async getWebsiteById(
+    @Arg('id', (type) => String) websiteId: string,
+    @Ctx() { session }: Context
+  ): Promise<Website> {
+    const websiteRepository = getRepository<Website>(Website.name)
+
+    return websiteRepository.findOne({
+      where: {
+        id: websiteId,
+        userId: session.user.id
+      }
+    })
+  }
+
+  @Authorized()
   @Query((returns) => [Website])
   async websites(
     @Arg('orderBy', (type) => OrderByInput, {
@@ -78,4 +94,5 @@ export class WebsiteResolver {
       },
     })
   }
+
 }
