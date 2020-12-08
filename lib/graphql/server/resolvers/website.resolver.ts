@@ -1,25 +1,67 @@
-import { Resolver, Query, Arg, Ctx, Authorized, ArgsType, Args, Field, Mutation } from 'type-graphql'
+import {
+  Resolver,
+  Query,
+  Arg,
+  Ctx,
+  Authorized,
+  ArgsType,
+  Args,
+  Field,
+  Mutation,
+  InputType,
+} from 'type-graphql'
 import { getRepository } from 'typeorm'
 import { Website, WebsiteStatus } from '../models'
 import { Context } from '../../../../pages/api/gql/services'
 import { OrderByInput, OrderDirection } from './common'
 import '../../../../initializers/database'
-import { MaxLength } from 'class-validator'
+import { IsOptional, MaxLength } from 'class-validator'
+import { UserInputError } from 'apollo-server-micro'
 
 @ArgsType()
 export class CreateWebsiteArgs implements Partial<Website> {
   @MaxLength(60)
-  @Field(type => String)
+  @Field((type) => String)
   title: string
-  
+
   @MaxLength(120)
-  @Field(type => String)
+  @Field((type) => String)
   location: string
 
-  @Field(type => WebsiteStatus, { nullable: true, defaultValue: WebsiteStatus.PRIVATE })
+  @Field((type) => WebsiteStatus, {
+    nullable: true,
+    defaultValue: WebsiteStatus.PRIVATE,
+  })
   status?: WebsiteStatus
 
-  @Field(type => String, { nullable: true, defaultValue: 'light' })
+  @Field((type) => String, { nullable: true, defaultValue: 'light' })
+  defaultTheme?: string
+}
+
+@InputType()
+export class SaveWebsiteInput implements Partial<Website> {
+  @Field((type) => String)
+  id: string
+
+  @IsOptional()
+  @MaxLength(60)
+  @Field((type) => String)
+  title: string
+
+  @IsOptional()
+  @MaxLength(120)
+  @Field((type) => String)
+  location: string
+
+  @IsOptional()
+  @Field((type) => WebsiteStatus, {
+    nullable: true,
+    defaultValue: WebsiteStatus.PRIVATE,
+  })
+  status?: WebsiteStatus
+
+  @IsOptional()
+  @Field((type) => String, { nullable: true, defaultValue: 'light' })
   defaultTheme?: string
 }
 
@@ -40,6 +82,26 @@ export class WebsiteResolver {
       ...website,
       userId: session.user.id,
     })
+  }
+
+  @Authorized()
+  @Query((returns) => Website)
+  async saveWebsite(
+    @Arg('website') website: SaveWebsiteInput,
+    @Ctx() { session }: Context
+  ): Promise<Website> {
+    const websiteRepository = getRepository<Website>(Website.name)
+
+    const oldWebsite = websiteRepository.findOne({
+      where: {
+        id: website.id,
+        userId: session.user.id,
+      },
+    })
+
+    if (!oldWebsite) throw new UserInputError('The website was not found')
+
+    return websiteRepository.save(website)
   }
 
   @Query((returns) => Website, { nullable: true })
@@ -67,8 +129,8 @@ export class WebsiteResolver {
     return websiteRepository.findOne({
       where: {
         id: websiteId,
-        userId: session.user.id
-      }
+        userId: session.user.id,
+      },
     })
   }
 
@@ -94,5 +156,4 @@ export class WebsiteResolver {
       },
     })
   }
-
 }
