@@ -43,6 +43,21 @@ export const CREATE_WEBSITE = gql`
 export const GET_WEBSITE_BY_LOCATION = gql`
   query getWebsiteByLocation($location: String!) {
     getWebsiteByLocation(location: $location) {
+      id
+      title
+      location
+      status
+      defaultTheme
+      updatedAt
+      createdAt
+    }
+  }
+`
+
+export const GET_WEBSITE_BY_ID = gql`
+  query getWebsiteById($id: String!) {
+    getWebsiteById(id: $id) {
+      id
       title
       location
       status
