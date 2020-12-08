@@ -61,7 +61,7 @@ export const WebsiteCard: FC<WebsiteCardProps> = ({
         </Box>
         <Text fontSize="sm" fontStyle="bold">
           {`Location `}
-          <Link href={`${location}`} mt="2px">
+          <Link href={`/user/${location}`} mt="2px">
             <strong>{`https://www.writzsol.com/user/${location}`}</strong>
           </Link>
         </Text>
