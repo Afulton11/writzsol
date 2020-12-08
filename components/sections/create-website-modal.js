@@ -17,12 +17,8 @@ import {
   useToast,
   Checkbox,
 } from '@chakra-ui/core'
-import {
-  GET_USER_WEBSITES,
-  useCreateWebsiteMutation,
-} from '../../lib/graphql/client/website'
 import { useUser } from '../../utils/hooks/useUser'
-import { useCreateWebsite } from '../../lib/graphql/client/hooks/useCreateWebsite'
+import { useCreateWebsite } from '../../lib/graphql/client/hooks'
 
 export function CreateWebsiteModal({ openAuthModal, disabled }) {
   const [user, isUserLoading] = useUser()
