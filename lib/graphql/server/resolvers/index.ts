@@ -1,2 +1,3 @@
-export { UserResolver } from './user.resolver';
-export { WebsiteResolver } from './website.resolver';
+export * from './user.resolver'
+export * from './website.resolver'
+export * from './page.resolver'
