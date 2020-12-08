@@ -44,7 +44,7 @@ export default function Dashboard(props) {
     if (websites.length == 0) return <Text>{`No websites created.`}</Text>
     else {
       const websiteCards = websites.map((site) => (
-        <WebsiteCard {...site} key={site.id} />
+        <WebsiteCard website={site} key={site.id} />
       ))
 
       return websiteCards
