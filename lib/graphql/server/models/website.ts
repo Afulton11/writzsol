@@ -6,14 +6,15 @@ import {
   Column,
   Entity,
   JoinTable,
-  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  Unique,
 } from 'typeorm'
 import { Page } from './page'
 
 @Entity()
 @ObjectType({ implements: EditableEntity })
+@Unique(['title', 'userId'])
 export class Website extends EditableEntity {
   @PrimaryGeneratedColumn('uuid')
   @Field((type) => ID)
@@ -60,8 +61,8 @@ export class Website extends EditableEntity {
   @Field((type) => User, { nullable: true })
   user: User
 
-  @OneToMany((type) => Page, page => page.website,  { nullable: true })
+  @OneToMany((type) => Page, (page) => page.website, { nullable: true })
   @Field((type) => [Page], { nullable: true, defaultValue: [] })
   @JoinTable()
-  pages: Promise<Page[]>;
+  pages: Promise<Page[]>
 }
