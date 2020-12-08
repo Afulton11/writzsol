@@ -1,11 +1,18 @@
 import { ObjectType, Field, ID } from 'type-graphql'
 import { Website } from '../models'
 import { EditableEntity } from './common'
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  Unique,
+} from 'typeorm'
 import GraphQLJSON from 'graphql-type-json'
 import { MaxLength } from 'class-validator'
 
 @Entity()
+@Unique(['path', 'websiteId'])
 @ObjectType({ implements: EditableEntity })
 export class Page extends EditableEntity {
   @PrimaryGeneratedColumn('uuid')
