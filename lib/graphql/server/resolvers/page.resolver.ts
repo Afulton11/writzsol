@@ -88,12 +88,16 @@ export class PageResolver {
       },
     })
 
-    return website?.pages
+    return website?.pages ?? []
   }
 
   @Authorized()
   @Mutation((returns) => Page)
-  async createPage(@Arg('page') page: CreatePageInput): Promise<Page> {
+  async createPage(
+    
+    @Arg('page', (type) => CreatePageInput) page: CreatePageInput
+  
+  ): Promise<Page> {
     const pageRepository = getRepository<Page>(Page.name)
 
     return pageRepository.create(page)
@@ -102,7 +106,7 @@ export class PageResolver {
   @Authorized()
   @Mutation((returns) => Page)
   async savePage(
-    @Arg('page') pageToSave: SavePageInput,
+    @Arg('page', (type) => SavePageInput) pageToSave: SavePageInput,
     @Ctx() { session }: Context
   ): Promise<Page> {
     const pageRepository = getRepository<Page>(Page.name)

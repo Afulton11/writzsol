@@ -1,11 +1,11 @@
 import React from 'react'
 import { Heading, Text, Grid, Spinner, Box, useToast } from '@chakra-ui/core'
 
-import { useUser } from '../utils/hooks/useUser'
-import StandardLayout from '../components/layouts/standard-layout'
-import { WebsiteCard } from '../components/ui/website-card'
-import { CreateWebsiteModal } from '../components/sections/create-website-modal'
-import { useWebsites } from '../lib/graphql/client/hooks'
+import { useUser } from '../../utils/hooks/useUser'
+import StandardLayout from '../../components/layouts/standard-layout'
+import { WebsiteCard } from '../../components/ui/website-card'
+import { CreateWebsiteModal } from '../../components/sections/create-website-modal'
+import { useWebsites } from '../../lib/graphql/client/hooks'
 
 const DashboardSkeleton = (
   <StandardLayout>
