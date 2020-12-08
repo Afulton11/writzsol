@@ -8,6 +8,7 @@ import {
   Divider,
   Text,
   Link,
+  Icon,
 } from '@chakra-ui/core'
 import TimeAgo from 'react-timeago'
 import { Website } from '../../lib/graphql/server'
@@ -15,6 +16,7 @@ import { Website } from '../../lib/graphql/server'
 type WebsiteCardProps = Website
 
 export const WebsiteCard: FC<WebsiteCardProps> = ({
+  id,
   title,
   status,
   location,
@@ -24,11 +26,14 @@ export const WebsiteCard: FC<WebsiteCardProps> = ({
     <Box p={6}>
       <Flex justify="space-between" mb={3}>
         <Heading size="lg">{title}</Heading>
-        <Button size="md" variant="solid" variantColor="green">
-          <Box pl={1} pr={1}>
-            Edit
-          </Box>
-        </Button>
+        <Link href={`/dashboard/${id}`}>
+          <Button size="md" variant="solid" variantColor="green">
+            <Icon name="edit" />
+            <Box pl={1} pr={1}>
+              Edit
+            </Box>
+          </Button>
+        </Link>
       </Flex>
       <Flex flexDir="row">
         <Box pr={2}>
