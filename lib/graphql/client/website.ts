@@ -1,20 +1,4 @@
 import { gql } from '@apollo/client'
-import { WebsiteStatus } from '../server'
-
-interface WebsiteData {
-  id: number
-  title: string
-  location: string
-  status: WebsiteStatus
-  defaultTheme: string
-}
-
-export interface WebsiteVars {
-  title: string
-  location: string
-  status?: WebsiteStatus
-  defaultTheme?: string
-}
 
 export const CREATE_WEBSITE = gql`
   mutation createWebsite(
@@ -29,6 +13,20 @@ export const CREATE_WEBSITE = gql`
       defaultTheme: $defaultTheme
       status: $status
     ) {
+      id
+      title
+      location
+      status
+      defaultTheme
+      updatedAt
+      createdAt
+    }
+  }
+`
+
+export const SAVE_WEBSITE = gql`
+  mutation saveWebsite($website: SaveWebsiteInput!) {
+    saveWebsite(website: $website) {
       id
       title
       location
