@@ -69,7 +69,8 @@ export default function Home({ website, page: storedPage, error }) {
   const [savePage, { loading: isSaving }] = useSavePage()
   const { handleSubmit, register, errors } = useForm({
     defaultValues: {
-      ...storedPage,
+      path: storedPage.path,
+      blocks: JSON.stringify(storedPage.blocks),
     },
   })
 
@@ -88,7 +89,7 @@ export default function Home({ website, page: storedPage, error }) {
   const onSaveChanges = handleSubmit(async (pageData) => {
     const deDupedPageData = removeEqualProperties(pageData, storedPage)
     deDupedPageData.blocks =
-      deDupedPageData && deDupedPageData.length > 0
+      deDupedPageData.blocks && deDupedPageData.blocks.length > 0
         ? JSON.parse(deDupedPageData.blocks)
         : undefined
 
@@ -157,7 +158,7 @@ export default function Home({ website, page: storedPage, error }) {
                 isInvalid={errors.blocks && errors.blocks.message}
               >
                 <FormLabel>Blocks</FormLabel>
-                <Textarea name="blocks" ref={register()} size="lg" />
+                <Textarea name="blocks" ref={register} size="lg" />
                 <FormErrorMessage>
                   {errors.blocks && errors.blocks.message}
                 </FormErrorMessage>

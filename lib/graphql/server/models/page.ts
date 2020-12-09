@@ -17,7 +17,7 @@ import { MaxLength } from 'class-validator'
 export class Page extends EditableEntity {
   @PrimaryGeneratedColumn('uuid')
   @Field((type) => ID)
-id: string
+  id: string
 
   @Column('uuid')
   @Field((type) => String, {

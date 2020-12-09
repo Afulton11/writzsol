@@ -3,23 +3,25 @@ export const removeEmptyProperties = <T>(
   obj: T,
   { removeEmptyStrings } = { removeEmptyStrings: true }
 ): Partial<T> => {
+  const cleanedObj = {}
   Object.keys(obj).forEach((key) => {
     if (obj[key] && typeof obj[key] === 'object')
-      removeEmptyProperties(obj[key])
-    else if (obj[key] === undefined || (removeEmptyStrings && obj[key] === ''))
-      delete obj[key]
+      cleanedObj[key] = removeEmptyProperties(obj[key])
+    else if (obj[key] !== undefined && !(removeEmptyStrings && obj[key] === ''))
+      cleanedObj[key] = obj[key]
   })
-  return obj
+  return cleanedObj
 }
 
 export const removeEqualProperties = <T>(
   removeFrom: T,
   other: T
 ): Partial<T> => {
+  const cleanedObj = {}
   Object.keys(removeFrom).forEach((key) => {
     if (removeFrom[key] && other[key] && typeof removeFrom[key] === 'object')
-      removeEqualProperties(removeFrom[key], other[key])
-    else if (removeFrom[key] === other[key]) delete removeFrom[key]
+      cleanedObj[key] = removeEqualProperties(removeFrom[key], other[key])
+    else if (removeFrom[key] !== other[key]) cleanedObj[key] = removeFrom[key]
   })
-  return removeFrom
+  return cleanedObj
 }
