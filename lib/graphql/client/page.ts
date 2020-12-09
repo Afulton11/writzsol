@@ -27,7 +27,7 @@ export const GET_PAGES = gql`
 `
 
 export const CREATE_PAGE = gql`
-  query createPage($page: CreatePageInput!) {
+  mutation createPage($page: CreatePageInput!) {
     createPage(page: $page) {
       id
       path
