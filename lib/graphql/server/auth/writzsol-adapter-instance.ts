@@ -48,7 +48,6 @@ export class WritzsolTypeORMAdapterInstance
   }
 
   createUser = async (profile: Profile) => {
-    console.debug('CREATE_USER', { profile })
     return this.userRepository.save({
       name: profile.name,
       email: profile.email,
@@ -57,20 +56,14 @@ export class WritzsolTypeORMAdapterInstance
   }
 
   getUser = async (id) => {
-    console.log('GET_USER', { id })
     return this.userRepository.findOne(id)
   }
 
   getUserByEmail = async (email) => {
-    console.debug('GET_USER_BY_EMAIL', { email })
     return this.userRepository.findOne({ where: { email } })
   }
 
   getUserByProviderAccountId = async (providerId, providerAccountId) => {
-    console.debug('GET_USER_BY_PROVIDER_ACCOUNT_ID', {
-      providerId,
-      providerAccountId,
-    })
     const account = await this.accountRepository.findOne({
       where: {
         providerId,
@@ -82,12 +75,10 @@ export class WritzsolTypeORMAdapterInstance
   }
 
   updateUser = async (user) => {
-    console.debug('UPDATE_USER', { user })
     return this.userRepository.save(user)
   }
 
   deleteUser = async (userId) => {
-    console.debug('DELETE_USER', { userId })
     return this.userRepository.delete(userId)
   }
 
@@ -115,7 +106,6 @@ export class WritzsolTypeORMAdapterInstance
       accessTokenExpires,
     }
 
-    console.debug('LINK_ACCOUNT', accountData)
     try {
       const account = await this.accountRepository.save(accountData)
 
@@ -127,7 +117,6 @@ export class WritzsolTypeORMAdapterInstance
   }
 
   createSession = async (user: User): Promise<any> => {
-    console.debug('CREATE_SESSION', { user })
     let expiresAt = null
     if (this.sessionMaxAge) {
       const expirationDate = new Date()
@@ -148,7 +137,6 @@ export class WritzsolTypeORMAdapterInstance
   getSession = async (
     sessionToken: string
   ): Promise<WritzsolSession | null> => {
-    console.debug('GET_SESSION', { sessionToken })
     const session = await this.sessionRepository.findOne({
       sessionToken,
     })
@@ -165,7 +153,6 @@ export class WritzsolTypeORMAdapterInstance
     session: WritzsolSession,
     force?: boolean
   ): Promise<WritzsolSession> => {
-    console.debug('UPDATE_SESSION', { session, force })
     if (
       this.sessionMaxAge &&
       (this.sessionUpdateAge || this.sessionUpdateAge === 0)
@@ -190,7 +177,6 @@ export class WritzsolTypeORMAdapterInstance
   }
 
   deleteSession = async (sessionToken: string): Promise<any> => {
-    console.debug('DELETE_SESSION', { sessionToken })
     return await this.sessionRepository.delete({
       sessionToken,
     })
