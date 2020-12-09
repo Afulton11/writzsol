@@ -1,12 +1,13 @@
 import SessionButtons from '../components/session-buttons'
 
-import { Heading, Flex, ButtonGroup } from '@chakra-ui/core'
+import { Heading, ButtonGroup } from '@chakra-ui/core'
+import { StandardLayout } from '../components'
 
 export default function Home() {
   return (
-    <Flex maxW="lg" alignItems="center" alignSelf="center" flexDir="column">
+    <StandardLayout>
       <Heading mt={8}>
-        POC using NextAuth, Graphql, Prisma, Nexus, and Apollo-Server!
+        POC using NextAuth, Graphql, typeorm, type-graphql, and Apollo-Server!
       </Heading>
       <ButtonGroup
         justifyContent="center"
@@ -18,6 +19,6 @@ export default function Home() {
       >
         <SessionButtons alignSelf="center" />
       </ButtonGroup>
-    </Flex>
+    </StandardLayout>
   )
 }

@@ -1,9 +1,11 @@
-import React from 'react';
-import NextLink from 'next/link';
-import { Box, Flex, Text, Button, Icon, Link } from '@chakra-ui/core';
+import React from 'react'
+import NextLink from 'next/link'
+import { Box, Flex, Text, Button, Icon, Link } from '@chakra-ui/core'
+import { signIn, signOut } from 'next-auth/client'
+import { useUser } from '../../utils'
 
 const MenuItems = (props) => {
-  const { children, isLast, to = '/', ...rest } = props;
+  const { children, isLast, to = '/', ...rest } = props
   return (
     <Text
       mb={{ base: isLast ? 0 : 8, sm: 0 }}
@@ -15,12 +17,13 @@ const MenuItems = (props) => {
         <Link href={to}>{children}</Link>
       </NextLink>
     </Text>
-  );
-};
+  )
+}
 
 const Header = (props) => {
-  const [show, setShow] = React.useState(false);
-  const toggleMenu = () => setShow(!show);
+  const [show, setShow] = React.useState(false)
+  const [user, isUserLoading] = useUser(false)
+  const toggleMenu = () => setShow(!show)
 
   return (
     <Flex
@@ -56,7 +59,10 @@ const Header = (props) => {
           <MenuItems to="/">Home</MenuItems>
           <MenuItems to="/dashboard">Dashboard </MenuItems>
 
-          <MenuItems to="/signup" isLast>
+          <MenuItems
+            to={user ? '/api/auth/signout' : '/api/auth/signin'}
+            isLast
+          >
             <Button
               size="sm"
               rounded="md"
@@ -64,16 +70,20 @@ const Header = (props) => {
               color={['gray.500', 'gray.500', 'white', 'white']}
               bg={['white', 'white', 'green.500', 'green.500']}
               _hover={{
-                bg: ['gray.100', 'gray.100', 'gray.600', 'gray.600']
+                bg: ['gray.100', 'gray.100', 'gray.600', 'gray.600'],
               }}
+              loadingText="Loading..."
+              isLoading={isUserLoading}
             >
-              Create Account
+              {user
+                ? `Sign Out of ${user.email || user.name}`
+                : 'Create Account'}
             </Button>
           </MenuItems>
         </Flex>
       </Box>
     </Flex>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header
