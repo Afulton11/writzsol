@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/core'
 import TimeAgo from 'react-timeago'
 import { Page } from '../../lib/graphql/server'
+import { Constants } from '../../utils'
 
 interface PageCardProps {
   location: string
@@ -20,28 +21,47 @@ interface PageCardProps {
 
 export const PageCard: FC<PageCardProps> = ({ location, page }) => {
   const { path, isPublished, updatedAt } = page
+  const url = `${Constants.WEBSITE_BASE_URL}/${location}/${path}`
+  const displayUrl = (function () {
+    if (url.length < 28) return url
+    if (path.length > 27) return `.../${path}`
+
+    const baseUrlLength = url.length - path.length - 1
+    return '...' + url.substring(url.length - baseUrlLength)
+  })()
+
   return (
-    <Box maxW="lg" minW="sm" borderWidth="1px" rounded="lg" overflow="hidden">
+    <Box maxW="lg" minW="xs" borderWidth="1px" rounded="lg" overflow="hidden">
       <Box p={6}>
         <Flex justify="space-between" mb={3}>
           <Heading size="lg">{path}</Heading>
-          <Button size="md" variant="solid" variantColor="green">
-            <Icon name="edit" />
-            <Box pl={1} pr={1}>
-              Edit
-            </Box>
+          <Button
+            minW={undefined}
+            leftIcon="edit"
+            size="md"
+            variant="solid"
+            variantColor="green"
+          >
+            {`Edit`}
           </Button>
         </Flex>
-        <Flex flexDir="row">
+        <Box>
           <Box pr={2}>
-            <Badge rounded="full" px="2" variantColor="green">
-              {isPublished ? 'Published' : 'Private'}
+            <Badge
+              rounded="full"
+              px="2"
+              variantColor={isPublished ? 'green' : 'yellow'}
+            >
+              {isPublished ? 'Published' : 'Draft'}
             </Badge>
           </Box>
-          <Link href={`https://${location}/${path}`} mt="2px">
-            <Heading size="sm">{`${path}`}</Heading>
-          </Link>
-        </Flex>
+          <Text fontSize="sm" fontStyle="bold">
+            {`Location `}
+            <Link href={url} mt="2px">
+              <strong>{displayUrl}</strong>
+            </Link>
+          </Text>
+        </Box>
 
         <Divider />
         <Flex w="100%" justify="space-between">
