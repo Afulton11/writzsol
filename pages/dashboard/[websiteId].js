@@ -221,7 +221,12 @@ export default function Home({ website: storedWebsite, error }) {
             gap={6}
           >
             {pages.map((page) => (
-              <PageCard key={page.id} location={website.location} page={page} />
+              <PageCard
+                key={page.id}
+                websiteId={website.id}
+                location={website.location}
+                page={page}
+              />
             ))}
           </Grid>
         ) : (

@@ -13,6 +13,19 @@ export const GET_PAGE = gql`
   }
 `
 
+export const GET_PAGE_BY_ID = gql`
+  query getPageById($id: String!) {
+    getPageById(id: $id) {
+      id
+      path
+      blocks
+      isPublished
+      createdAt
+      updatedAt
+    }
+  }
+`
+
 export const GET_PAGES = gql`
   query getPages($location: String!) {
     getPages(location: $location) {
@@ -44,7 +57,7 @@ export const CREATE_PAGE = gql`
 `
 
 export const SAVE_PAGE = gql`
-  query savePage($page: SavePageInput!) {
+  mutation savePage($page: SavePageInput!) {
     savePage(page: $page) {
       id
       path
@@ -57,7 +70,7 @@ export const SAVE_PAGE = gql`
 `
 
 export const DELETE_PAGE = gql`
-  query deletePage($pageId: String!) {
+  mutation deletePage($pageId: String!) {
     deletePage(pageId: $pageId) {
       id
       path
