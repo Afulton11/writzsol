@@ -14,6 +14,7 @@ import {
 } from 'type-graphql'
 import { getRepository } from 'typeorm'
 import { Context } from '../../../../pages/api/gql/services'
+import { removeEmptyProperties } from '../../../../utils'
 import { Page, User, Website } from '../models'
 
 @InputType()
@@ -36,19 +37,20 @@ class CreatePageInput implements Partial<Page> {
 
 @InputType()
 class SavePageInput implements Partial<Page> {
-  @IsUrl()
-  @IsOptional()
   @Field((type) => String)
+  id: string
+
+  @IsOptional()
+  @Field((type) => String, { nullable: true })
   path?: string
 
-  @IsObject()
   @IsOptional()
-  @Field((type) => GraphQLJSON)
+  @Field((type) => GraphQLJSON, { nullable: true })
   blocks?: object
 
-  @IsBoolean()
   @IsOptional()
-  @Field((type) => Boolean)
+  @IsBoolean()
+  @Field((type) => Boolean, { nullable: true })
   isPublished?: boolean
 }
 
@@ -69,6 +71,22 @@ export class PageResolver {
         },
       },
       relations: [Website.name],
+    })
+  }
+
+  @Authorized()
+  @Query((returns) => Page)
+  async getPageById(
+    @Arg('id', (type) => String) id: string,
+    @Ctx() { session }: Context
+  ): Promise<Page> {
+    const pageRepository = getRepository<Page>(Page.name)
+
+    return pageRepository.findOne({
+      where: {
+        id,
+        userId: session.user.id,
+      },
     })
   }
 
@@ -128,21 +146,30 @@ export class PageResolver {
   @Authorized()
   @Mutation((returns) => Page)
   async savePage(
-    @Arg('page', (type) => SavePageInput) pageToSave: SavePageInput,
+    @Arg('page', (type) => SavePageInput) page: SavePageInput,
     @Ctx() { session }: Context
   ): Promise<Page> {
     const pageRepository = getRepository<Page>(Page.name)
-    const page = await pageRepository.findOne(pageToSave)
 
-    if (!page)
+    const cleanedPage = removeEmptyProperties(page)
+    const oldPage = await pageRepository.findOne({
+      where: {
+        id: page.id,
+        userId: session?.user?.id,
+      },
+    })
+
+    if (!oldPage)
       throw new ApolloError('Requested page does not exist!', 'SAVE_PAGE', {
-        pageToSave,
+        cleanedPage,
       })
 
-    if (!this.doesUserOwnPage(session.user, page))
-      throw new AuthenticationError('User does not own page!')
+    const savedData = pageRepository.save(cleanedPage)
 
-    return pageRepository.save(pageToSave)
+    return {
+      ...oldPage,
+      ...savedData,
+    }
   }
 
   @Authorized()

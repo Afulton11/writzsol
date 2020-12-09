@@ -1,9 +1,13 @@
 // https://stackoverflow.com/a/38340374
-export const removeEmptyProperties = <T>(obj: T): Partial<T> => {
+export const removeEmptyProperties = <T>(
+  obj: T,
+  { removeEmptyStrings } = { removeEmptyStrings: true }
+): Partial<T> => {
   Object.keys(obj).forEach((key) => {
     if (obj[key] && typeof obj[key] === 'object')
       removeEmptyProperties(obj[key])
-    else if (obj[key] === undefined) delete obj[key]
+    else if (obj[key] === undefined || (removeEmptyStrings && obj[key] === ''))
+      delete obj[key]
   })
   return obj
 }
