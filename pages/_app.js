@@ -32,7 +32,7 @@ const GlobalStyle = ({ children }) => (
 )
 
 function WritzsolApp({ Component, pageProps }) {
-  const apolloClient = useApollo(pageProps)
+  const apolloClient = useApollo({ initialState: pageProps })
 
   return (
     <>

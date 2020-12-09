@@ -56,22 +56,24 @@ class SavePageInput implements Partial<Page> {
 
 @Resolver(Page)
 export class PageResolver {
-  @Query((returns) => Page)
+  @Query((returns) => Page, { nullable: true })
   async getPage(
     @Arg('path', (type) => String) path: string,
     @Arg('location', (type) => String) location: string
   ): Promise<Page> {
     const pageRepository = getRepository<Page>(Page.name)
 
-    return pageRepository.findOne({
-      where: {
-        path,
-        website: {
-          location,
-        },
+    // https://github.com/typeorm/typeorm/issues/4396#issuecomment-566254087
+    const page = await pageRepository.findOne({
+      join: { alias: 'page', innerJoin: { website: 'page.website' } },
+      where: (qb) => {
+        qb.where({
+          path,
+        }).andWhere('website.location = :location', { location })
       },
-      relations: [Website.name],
     })
+
+    return page
   }
 
   @Authorized()

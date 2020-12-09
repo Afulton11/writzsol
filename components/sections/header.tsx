@@ -1,11 +1,23 @@
-import React from 'react'
+import { useState, ReactNode, FC } from 'react'
 import NextLink from 'next/link'
-import { Box, Flex, Text, Button, Icon, Link } from '@chakra-ui/core'
-import { signIn, signOut } from 'next-auth/client'
-import { useUser } from '../../utils'
+import { Box, Flex, Text, Button, Icon, Link, BoxProps } from '@chakra-ui/core'
+interface HeaderProps {
+  children?: ReactNode
+  [rest: string]: any
+}
 
-const MenuItems = (props) => {
-  const { children, isLast, to = '/', ...rest } = props
+type MenuItemProps = {
+  isLast?: boolean
+  to: string
+  [rest: string]: any
+} & BoxProps
+
+export const MenuItem: FC<MenuItemProps> = ({
+  children,
+  isLast = false,
+  to = '/',
+  ...rest
+}) => {
   return (
     <Text
       mb={{ base: isLast ? 0 : 8, sm: 0 }}
@@ -20,9 +32,8 @@ const MenuItems = (props) => {
   )
 }
 
-const Header = (props) => {
-  const [show, setShow] = React.useState(false)
-  const [user, isUserLoading] = useUser(false)
+export const Header: FC<HeaderProps> = ({ children, ...rest }) => {
+  const [show, setShow] = useState(false)
   const toggleMenu = () => setShow(!show)
 
   return (
@@ -35,8 +46,9 @@ const Header = (props) => {
       mb={8}
       pt={8}
       bg={['gray.500', 'gray.500', 'transparent', 'transparent']}
+      // @ts-ignore
       color={['white', 'white', 'gray.700', 'gray.700']}
-      {...props}
+      {...rest}
     >
       <Flex align="center" mr={8} float="left">
         <Icon name="twitter" />
@@ -56,34 +68,9 @@ const Header = (props) => {
           direction={['column', 'row', 'row', 'row']}
           pt={[4, 4, 0, 0]}
         >
-          <MenuItems to="/">Home</MenuItems>
-          <MenuItems to="/dashboard">Dashboard </MenuItems>
-
-          <MenuItems
-            to={user ? '/api/auth/signout' : '/api/auth/signin'}
-            isLast
-          >
-            <Button
-              size="sm"
-              rounded="md"
-              //@ts-ignore
-              color={['gray.500', 'gray.500', 'white', 'white']}
-              bg={['white', 'white', 'green.500', 'green.500']}
-              _hover={{
-                bg: ['gray.100', 'gray.100', 'gray.600', 'gray.600'],
-              }}
-              loadingText="Loading..."
-              isLoading={isUserLoading}
-            >
-              {user
-                ? `Sign Out of ${user.email || user.name}`
-                : 'Create Account'}
-            </Button>
-          </MenuItems>
+          {children}
         </Flex>
       </Box>
     </Flex>
   )
 }
-
-export default Header
