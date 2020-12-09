@@ -199,7 +199,7 @@ export default function Home({ website: storedWebsite, pages, error }) {
         <Heading mt={8}>Pages</Heading>
         <Divider />
         <Box>
-          <CreatePageModal disabled={isSaving} />
+          <CreatePageModal disabled={isSaving} websiteId={website.id} />
         </Box>
         {pages.length > 0 ? (
           pages.map((page) => <PageCard location={location} page={page} />)

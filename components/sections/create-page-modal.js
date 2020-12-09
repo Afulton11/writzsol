@@ -42,7 +42,7 @@ export function CreatePageModal({ websiteId, disabled }) {
           <ModalCloseButton />
           <ModalBody pb={6}>
             <CreatePageForm
-              websiteId
+              websiteId={websiteId}
               onCompleted={onClose}
               createFormButtons={(isLoading) => (
                 <ModalFooter pr={0}>

@@ -20,7 +20,7 @@ interface CreatePageFormProps {
 }
 
 export const CreatePageForm: FC<CreatePageFormProps> = ({
-  location,
+  websiteId,
   createFormButtons,
   onCompleted,
   ...rest
@@ -34,7 +34,7 @@ export const CreatePageForm: FC<CreatePageFormProps> = ({
   const onCreatePage = async ({ path }) => {
     const { createdPage, errors } = await createPage({
       path,
-      location,
+      websiteId,
     })
 
     if (errors) {
