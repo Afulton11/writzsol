@@ -21,7 +21,7 @@ import {
   getWebsiteById,
   useSaveWebsite,
 } from '../../lib/graphql/client/hooks'
-import { PageCard, WebsiteCard } from '../../components/ui'
+import { PageCard, WebsiteCard, CreatePageModal } from '../../components'
 import { removeEqualProperties } from '../../utils'
 
 export async function getServerSideProps({ params, req }) {
@@ -198,6 +198,9 @@ export default function Home({ website: storedWebsite, pages, error }) {
 
         <Heading mt={8}>Pages</Heading>
         <Divider />
+        <Box>
+          <CreatePageModal disabled={isSaving} />
+        </Box>
         {pages.length > 0 ? (
           pages.map((page) => <PageCard location={location} page={page} />)
         ) : (

@@ -30,8 +30,8 @@ class CreatePageInput implements Partial<Page> {
   blocks?: object
 
   @IsBoolean()
-  @Field((type) => Boolean, { defaultValue: false })
-  isPublished: boolean
+  @Field((type) => Boolean, { nullable: true, defaultValue: false })
+  isPublished?: boolean
 }
 
 @InputType()
@@ -94,9 +94,7 @@ export class PageResolver {
   @Authorized()
   @Mutation((returns) => Page)
   async createPage(
-    
     @Arg('page', (type) => CreatePageInput) page: CreatePageInput
-  
   ): Promise<Page> {
     const pageRepository = getRepository<Page>(Page.name)
 
