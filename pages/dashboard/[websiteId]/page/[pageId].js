@@ -70,7 +70,7 @@ export default function Home({ website, page: storedPage, error }) {
   const { handleSubmit, register, errors } = useForm({
     defaultValues: {
       path: storedPage.path,
-      blocks: JSON.stringify(storedPage.blocks),
+      blocks: storedPage.blocks ? JSON.stringify(storedPage.blocks) : '',
     },
   })
 
