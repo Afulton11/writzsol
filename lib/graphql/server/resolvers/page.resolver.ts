@@ -1,6 +1,7 @@
 import { AuthenticationError, ApolloError } from 'apollo-server-micro'
 import { IsBoolean, IsObject, IsOptional, IsUrl } from 'class-validator'
 import GraphQLJSON from 'graphql-type-json'
+import { userInfo } from 'os'
 import {
   Resolver,
   Query,
@@ -11,7 +12,7 @@ import {
   Authorized,
   Ctx,
 } from 'type-graphql'
-import { getRepository, Repository } from 'typeorm'
+import { getRepository } from 'typeorm'
 import { Context } from '../../../../pages/api/gql/services'
 import { Page, User, Website } from '../models'
 
@@ -20,18 +21,17 @@ class CreatePageInput implements Partial<Page> {
   @Field((type) => String)
   websiteId: string
 
-  @IsUrl()
-  @IsOptional()
   @Field((type) => String)
-  path?: string
+  path: string
 
   @IsOptional()
-  @Field((type) => GraphQLJSON)
+  @Field((type) => GraphQLJSON, { nullable: true })
   blocks?: object
 
+  @IsOptional()
   @IsBoolean()
-  @Field((type) => Boolean, { defaultValue: false })
-  isPublished: boolean
+  @Field((type) => Boolean, { nullable: true, defaultValue: false })
+  isPublished?: boolean
 }
 
 @InputType()
@@ -94,13 +94,31 @@ export class PageResolver {
   @Authorized()
   @Mutation((returns) => Page)
   async createPage(
-    
-    @Arg('page', (type) => CreatePageInput) page: CreatePageInput
-  
+    @Arg('page', (type) => CreatePageInput) page: CreatePageInput,
+    @Ctx() { session }: Context
   ): Promise<Page> {
     const pageRepository = getRepository<Page>(Page.name)
+    const websiteRepository = getRepository<Website>(Website.name)
+    const userId = session.user.id
 
-    return pageRepository.create(page)
+    const website = await websiteRepository.findOne({
+      where: {
+        id: page.websiteId,
+        userId,
+      },
+    })
+
+    if (!website)
+      throw new ApolloError('Website does not exist!', 'CREATE_PAGE', {
+        page,
+      })
+
+    const savedPage = await pageRepository.save({
+      ...page,
+      userId,
+    })
+
+    return savedPage
   }
 
   @Authorized()
