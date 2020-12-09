@@ -35,6 +35,10 @@ export const CREATE_PAGE = gql`
       isPublished
       createdAt
       updatedAt
+
+      website {
+        location
+      }
     }
   }
 `

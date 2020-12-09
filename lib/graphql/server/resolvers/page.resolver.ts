@@ -86,6 +86,7 @@ export class PageResolver {
         location,
         userId: user.id,
       },
+      relations: ['pages'],
     })
 
     return website?.pages ?? []
@@ -118,7 +119,10 @@ export class PageResolver {
       userId,
     })
 
-    return savedPage
+    return {
+      ...savedPage,
+      website,
+    }
   }
 
   @Authorized()

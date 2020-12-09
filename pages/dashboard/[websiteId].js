@@ -12,12 +12,14 @@ import {
   Input,
   Divider,
   FormHelperText,
+  Grid,
+  Spinner,
 } from '@chakra-ui/core'
 import { useForm } from 'react-hook-form'
 import StandardLayout from '../../components/layouts/standard-layout'
 import { initializeApollo } from '../../lib/graphql/apollo-client'
 import {
-  getPages,
+  usePages,
   getWebsiteById,
   useSaveWebsite,
 } from '../../lib/graphql/client/hooks'
@@ -36,15 +38,9 @@ export async function getServerSideProps({ params, req }) {
 
     if (!website) return { notFound: true }
 
-    const pages = await getPages({
-      location: website.location,
-      client: apolloClient,
-    })
-
     return {
       props: {
         website,
-        pages,
       },
     }
   } catch (error) {
@@ -52,14 +48,13 @@ export async function getServerSideProps({ params, req }) {
     return {
       props: {
         website: {},
-        pages: [],
         error: true,
       },
     }
   }
 }
 
-export default function Home({ website: storedWebsite, pages, error }) {
+export default function Home({ website: storedWebsite, error }) {
   const toast = useToast()
   const [website, setWebsite] = useState(storedWebsite)
   const [saveWebsite, { loading: isSaving }] = useSaveWebsite()
@@ -67,6 +62,9 @@ export default function Home({ website: storedWebsite, pages, error }) {
     defaultValues: {
       ...website,
     },
+  })
+  const { loading: arePagesLoading, error: pageError, pages } = usePages({
+    location: website.location,
   })
 
   if (error) {
@@ -79,6 +77,16 @@ export default function Home({ website: storedWebsite, pages, error }) {
     })
 
     return <DefaultErrorPage statusCode={500} />
+  }
+
+  if (pageError) {
+    toast({
+      title: 'Something went wrong.',
+      description: "While getting the website's pages, something bad happened.",
+      status: 'error',
+      duration: 9000,
+      isClosable: true,
+    })
   }
 
   const onSaveChanges = async (websiteData) => {
@@ -198,13 +206,26 @@ export default function Home({ website: storedWebsite, pages, error }) {
 
         <Heading mt={8}>Pages</Heading>
         <Divider />
-        <Box>
+        <Box pb={4}>
           <CreatePageModal disabled={isSaving} websiteId={website.id} />
         </Box>
+        {arePagesLoading && <Spinner />}
         {pages.length > 0 ? (
-          pages.map((page) => <PageCard location={location} page={page} />)
+          <Grid
+            templateColumns={[
+              'repeat(1, 1fr)',
+              'repeat(1, 1fr)',
+              'repeat(2, 1fr)',
+              'repeat(3, 1fr)',
+            ]}
+            gap={6}
+          >
+            {pages.map((page) => (
+              <PageCard key={page.id} location={website.location} page={page} />
+            ))}
+          </Grid>
         ) : (
-          <Text p={4}>{`No pages exist.`}</Text>
+          <Text p={4}>{`No pages created.`}</Text>
         )}
       </Box>
     </StandardLayout>
