@@ -5,7 +5,7 @@ module.exports = {
     }
 
     if (process.env.APP_ENV && process.env.APP_ENV === 'LOCALHOST') {
-      config.devtool = 'cheap-module-eval-source-map'
+      config.devtool = 'eval-source-map'
     }
 
     // enable top-level await, see pages/api/gql/index.ts for usecase.
