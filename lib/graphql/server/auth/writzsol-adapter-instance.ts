@@ -69,6 +69,7 @@ export class WritzsolTypeORMAdapterInstance
         providerId,
         providerAccountId,
       },
+      relations: ['user'],
     })
 
     return account?.user
