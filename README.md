@@ -2,38 +2,54 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-1. After cloning the repo, generate files from prisma & nexus:
+1. After cloning the repo, install dependencies.
 
    ```bash
-   npm run generate
+   npm run install
    # or
-   yarn generate
+   yarn install
    ```
 
-   These files will include helpful things like schema types and a schema.graphql file.
+2. Connect typeorm with a postgres database. For now, create a local postgresql instance and a `.env` in the root folder. This file will contain sensitive data required to interact with external APIs like Google Auth or Github Auth. Then, setup local databases with psql:
 
-2. Connect prisma with a postgres database. For now, create a local postgresql instance and a `.env` file within the `prisma` folder. Inside the `.env` file add, `DATABASE_URL={Your-Database-Url-Here}`. This allows prisma to communicate with the database.
+```bash
+npm run db:setup
+# or
+yarn db:setup
+```
 
-3. Run Prisma migrate:
+3. Inside the `.env` file add, `TYPEORM_URL={Your-Database-Url-Here}` for localhost, this url will look something like: `postgres://admin:admin@localhost:5432/writzsol_dev`
+
+4. Add additional TYPEORM env. variables to your `.env` file:
 
    ```bash
-   npx prisma migrate up {latest-migration}
+   APP_ENV="LOCALHOST"
+   NEXT_PUBLIC_SITE_URL="http://localhost:3000"
+   TYPEORM_ENTITIES="../../../lib/graphql/server/models/**/*.ts"
+   TYPEORM_MIGRATIONS="../../../lib/graphql/server/migrations/**/*.ts"
+   TYPEORM_SUBSCRIBERS="../../../lib/graphql/server/subscribers/**/*.ts"
+   TYPEORM_ENTITIES_DIR="../../../lib/graphql/server/models"
+   TYPEORM_MIGRATIONS_DIR="../../../lib/graphql/server/migrations"
+   TYPEORM_SUBSCRIBERS_DIR="../../../lib/graphql/server/subscribers"
    ```
 
-   This will create tables within your new postgres database necessary for NextAuth to run.
-   The current `latest-migration` is `next-auth-models`.
-
-4. Create a `.env` file in the root project directory. This file will contain sensitive data required to interact with external APIs like Google Auth or Github Auth. See more about what is needed for this file here: https://next-auth.js.org/getting-started/example
-
-   OR
-
-   If you have access to our vercel deployments, simply run the vercel CLI command:
+5. Run typeorm migrate:
 
    ```bash
-   vercel env pull
+   yarn db:migrate:local && yarn db:migrate:local:test
    ```
 
-   and type in `http://localhost:3000` as the VERCEL_URL for development in the generated `.env` file.
+6. See more about what is needed for the '.env' file here: https://next-auth.js.org/getting-started/example. You may need to get a secret & client_id from both github and google. However, Github is the easiest clientId & secret to create.
+
+OR
+
+If you have access to our vercel deployments, simply run the vercel CLI command:
+
+```bash
+vercel env pull
+```
+
+and type in `http://localhost:3000` as the NEXTAUTH_URL for development in the generated `.env` file.
 
 5. Run the development server:
 
