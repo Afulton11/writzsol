@@ -46,7 +46,7 @@
     "@emotion/core": "^10.0.35",
     "@emotion/styled": "^10.0.27",
     "apollo-server-micro": "^2.18.2",
-    "class-validator": "^0.12.2",
+    "class-validator": "^0.14.0",
     "emotion-theming": "^10.0.27",
     "graphql": "^15.3.0",
     "graphql-iso-date": "^3.6.1",
